@@ -25,9 +25,18 @@ if [ -z "$ISSUE" ]; then
   exit 0  # Couldn't extract issue number
 fi
 
+# Determine current branch — PRs must come from a feature branch, not main
+BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "")
+
+if [ -z "$BRANCH" ] || [ "$BRANCH" = "main" ] || [ "$BRANCH" = "HEAD" ]; then
+  exit 0  # No branch, on main, or detached — nothing to PR
+fi
+
+# Make sure the branch is pushed to origin (gh pr create needs a remote ref)
+git push -u origin "$BRANCH" 2>/dev/null || true
+
 # Check if a PR already exists for this branch
-# (simplified: check if any open PR exists; ideally filter by branch)
-EXISTING=$(gh pr list --repo ad6190/aditibhatnagar --head main --json number -q '.[0].number' 2>/dev/null || echo "")
+EXISTING=$(gh pr list --repo ad6190/aditibhatnagar --head "$BRANCH" --json number -q '.[0].number' 2>/dev/null || echo "")
 
 if [ -n "$EXISTING" ]; then
   exit 0  # PR already exists
@@ -36,10 +45,11 @@ fi
 # Get the commit subject for the PR title
 COMMIT_TITLE=$(git log -1 --pretty=%s 2>/dev/null || echo "Auto-created PR")
 
-# Create a draft PR
+# Create a draft PR from current branch → main
 gh pr create \
   --repo ad6190/aditibhatnagar \
-  --head main \
+  --base main \
+  --head "$BRANCH" \
   --draft \
   --title "$COMMIT_TITLE" \
   --body "Closes #${ISSUE}
