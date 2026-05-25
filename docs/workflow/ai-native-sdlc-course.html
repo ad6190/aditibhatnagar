@@ -1,0 +1,2551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-Native SDLC — Complete Course</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&amp;family=DM+Sans:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0f0e0d;
+    --paper: #faf8f4;
+    --white: #ffffff;
+    --rule: #e0dbd3;
+    --accent: #c84b1f;
+    --accent-light: #f5ede8;
+    --accent-dark: #a33d18;
+    --muted: #7a7469;
+    --tag-bg: #1a1917;
+    --tag-fg: #faf8f4;
+    --blue: #2563eb;
+    --blue-light: #eff6ff;
+    --green: #16a34a;
+    --green-light: #f0fdf4;
+    --purple: #7c3aed;
+    --purple-light: #faf5ff;
+    --amber: #d97706;
+    --amber-light: #fffbeb;
+    --cyan: #0891b2;
+    --cyan-light: #ecfeff;
+    --rose: #e11d48;
+    --rose-light: #fff1f2;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── Navigation ── */
+  .top-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--ink);
+    color: var(--tag-fg);
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    height: 52px;
+    overflow-x: auto;
+    white-space: nowrap;
+    border-bottom: 3px solid var(--accent);
+  }
+
+  .top-nav .brand {
+    font-family: 'DM Serif Display', serif;
+    font-size: 16px;
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-right: 12px;
+  }
+
+  .top-nav a {
+    color: #b0aba3;
+    text-decoration: none;
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    padding: 4px 0;
+    transition: color 0.15s;
+    flex-shrink: 0;
+  }
+
+  .top-nav a:hover { color: #fff; }
+
+  /* ── Hero ── */
+  .hero {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 60px 5vw 48px;
+    text-align: center;
+  }
+
+  .hero .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(36px, 5vw, 56px);
+    line-height: 1.15;
+    color: var(--paper);
+    margin-bottom: 12px;
+  }
+
+  .hero h1 em { font-style: italic; color: var(--accent); }
+
+  .hero .subtitle {
+    font-size: 18px;
+    color: #b0aba3;
+    max-width: 780px;
+    margin: 0 auto 32px;
+    font-weight: 300;
+    line-height: 1.65;
+  }
+
+  .hero-meta {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    font-size: 12px;
+    color: #8a8580;
+  }
+
+  .hero-meta span { display: flex; align-items: center; gap: 6px; }
+  .hero-meta strong { color: var(--paper); font-weight: 500; }
+
+  /* ── Main container ── */
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 48px;
+  }
+
+  /* ── Module Cards ── */
+  .module {
+    background: var(--white);
+    border: 1px solid var(--rule);
+    margin: 32px 0;
+    position: relative;
+    scroll-margin-top: 68px;
+  }
+
+  .module::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+  }
+
+  .module.mod-glossary::before { background: var(--muted); }
+  .module.mod-foundations::before { background: var(--accent); }
+  .module.mod-models::before { background: var(--purple); }
+  .module.mod-tools::before { background: var(--blue); }
+  .module.mod-context::before { background: var(--green); }
+  .module.mod-mcp::before { background: var(--cyan); }
+  .module.mod-libraries::before { background: var(--amber); }
+  .module.mod-repo::before { background: var(--rose); }
+  .module.mod-debug::before { background: var(--purple); }
+  .module.mod-sdlc::before { background: var(--accent); }
+  .module.mod-mindset::before { background: var(--rose); }
+  .module.mod-background::before { background: var(--cyan); }
+  .module.mod-exercises::before { background: var(--green); }
+
+  .module-inner {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .module-header {
+    padding: 24px 36px 20px;
+    border-bottom: 1px solid var(--rule);
+    border-right: none;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .module-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 13px;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .module-header h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 24px;
+    line-height: 1.2;
+    color: var(--ink);
+    flex-shrink: 0;
+  }
+
+  .module-header .module-sub {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 300;
+    line-height: 1.5;
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .module-time {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: var(--tag-bg);
+    color: var(--tag-fg);
+    padding: 3px 10px;
+    flex-shrink: 0;
+  }
+
+  .module-body {
+    padding: 28px 36px 36px;
+  }
+
+  /* ── Section Headings inside modules ── */
+  .section-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 22px 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-title:first-child { margin-top: 0; }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  /* ── Content blocks ── */
+  .concept-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+    margin: 14px 0;
+  }
+
+  .concept-card {
+    border: 1px solid var(--rule);
+    padding: 16px 18px;
+    background: var(--paper);
+  }
+
+  .concept-card .icon { font-size: 18px; margin-bottom: 4px; display: block; }
+
+  .concept-card h4 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .concept-card p {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .concept-card p strong {
+    color: var(--ink);
+  }
+
+  .concept-card .card-fields {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .concept-card .card-fields li {
+    padding: 2px 0;
+  }
+
+  .concept-card .card-fields li strong {
+    color: var(--ink);
+  }
+
+  /* ── Definition list ── */
+  .def-list { margin: 10px 0; }
+
+  .def-item {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 4px 20px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: baseline;
+  }
+
+  .def-item:last-child { border-bottom: none; }
+
+  .def-term {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--accent);
+  }
+
+  .def-desc {
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1.55;
+  }
+
+  .def-desc em { font-style: italic; color: var(--muted); }
+
+  /* ── Comparison table ── */
+  .comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 12.5px;
+  }
+
+  .comparison-table th {
+    text-align: left;
+    padding: 8px 12px;
+    background: var(--tag-bg);
+    color: var(--tag-fg);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    border: 1px solid #333;
+  }
+
+  .comparison-table td {
+    padding: 8px 12px;
+    border: 1px solid var(--rule);
+    color: var(--ink);
+    vertical-align: top;
+    line-height: 1.55;
+  }
+
+  .comparison-table tr:nth-child(even) td { background: var(--paper); }
+
+  /* ── Code blocks ── */
+  .code-block {
+    background: var(--tag-bg);
+    color: #e8e4df;
+    padding: 18px 22px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    line-height: 1.7;
+    overflow-x: auto;
+    margin: 12px 0;
+    border-left: 3px solid var(--accent);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  .code-block .comment { color: #6a9955; }
+  .code-block .keyword { color: #569cd6; }
+  .code-block .string { color: #ce9178; }
+  .code-block .prompt { color: #dcdcaa; }
+
+  /* ── Callout boxes ── */
+  .callout {
+    padding: 16px 22px;
+    margin: 14px 0;
+    font-size: 13px;
+    line-height: 1.6;
+    border-left: 4px solid;
+  }
+
+  .callout.tip { background: var(--green-light); border-color: var(--green); }
+  .callout.warn { background: var(--amber-light); border-color: var(--amber); }
+  .callout.info { background: var(--blue-light); border-color: var(--blue); }
+  .callout.key { background: var(--accent-light); border-color: var(--accent); }
+
+  .callout strong:first-child { display: block; margin-bottom: 4px; font-size: 12px; letter-spacing: 0.04em; }
+
+  /* ── Tags ── */
+  .tags { display: flex; flex-wrap: wrap; gap: 5px; margin: 8px 0; }
+
+  .tag {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    padding: 3px 9px;
+    border-radius: 2px;
+  }
+
+  .tag.dark { background: var(--tag-bg); color: var(--tag-fg); }
+  .tag.light { background: transparent; color: var(--muted); border: 1px solid var(--rule); }
+  .tag.accent { background: var(--accent); color: #fff; }
+  .tag.blue { background: var(--blue); color: #fff; }
+  .tag.green { background: var(--green); color: #fff; }
+  .tag.purple { background: var(--purple); color: #fff; }
+  .tag.amber { background: var(--amber); color: #fff; }
+
+  /* ── Cheat sheet blocks ── */
+  .cheat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 14px 0;
+  }
+
+  .cheat-card {
+    border: 1px solid var(--rule);
+    padding: 14px 16px;
+    background: var(--white);
+  }
+
+  .cheat-card h4 {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+
+  .cheat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 4px 0;
+    font-size: 12px;
+    border-bottom: 1px dotted var(--rule);
+  }
+
+  .cheat-item:last-child { border-bottom: none; }
+
+  .cheat-key {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    background: var(--paper);
+    padding: 1px 6px;
+    border: 1px solid var(--rule);
+    color: var(--ink);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .cheat-desc { color: var(--muted); margin-right: 10px; }
+
+  /* ── Bullet lists ── */
+  .content-list {
+    margin: 10px 0;
+    padding-left: 20px;
+  }
+
+  .content-list li {
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1.6;
+    margin-bottom: 4px;
+  }
+
+  .content-list li strong { color: var(--ink); }
+
+  /* ── Exercise blocks ── */
+  .exercise {
+    background: var(--white);
+    border: 2px solid var(--green);
+    padding: 16px 20px;
+    margin: 10px 0;
+  }
+
+  .exercise-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 14px;
+    color: var(--green);
+    margin-bottom: 4px;
+  }
+
+  .exercise h4 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .exercise p, .exercise li {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .exercise ol, .exercise ul {
+    padding-left: 20px;
+    margin-top: 6px;
+  }
+
+  .exercise li { margin-bottom: 4px; }
+
+  .exercise .est {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-top: 8px;
+    display: block;
+  }
+
+  /* ── Deep-dive reference ── */
+  .ref-links {
+    margin: 12px 0;
+    list-style: none;
+    padding: 0;
+  }
+
+  .ref-links li {
+    padding: 6px 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: 13px;
+  }
+
+  .ref-links li:last-child { border-bottom: none; }
+
+  .ref-links a {
+    color: var(--blue);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .ref-links a:hover { text-decoration: underline; }
+
+  .ref-links .ref-type {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-left: 8px;
+  }
+
+  /* ── Diagram / visual blocks ── */
+  .diagram-box {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 24px;
+    margin: 16px 0;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    line-height: 2;
+    color: var(--ink);
+  }
+
+  .diagram-box .arrow { color: var(--accent); font-weight: 700; }
+  .diagram-box .box {
+    display: inline-block;
+    border: 1px solid var(--rule);
+    padding: 4px 14px;
+    background: var(--white);
+    margin: 2px 4px;
+  }
+
+  .diagram-box .box.highlight {
+    border-color: var(--accent);
+    background: var(--accent-light);
+    font-weight: 600;
+  }
+
+  /* ── Footer ── */
+  .page-footer {
+    background: var(--ink);
+    color: #8a8580;
+    padding: 40px 32px;
+    text-align: center;
+    font-size: 13px;
+    line-height: 1.7;
+    margin-top: 60px;
+  }
+
+  .page-footer strong { color: var(--paper); }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .module-header { flex-direction: column; gap: 6px; padding: 20px 24px 16px; }
+    .module-body { padding: 20px 24px 28px; }
+    .def-item { grid-template-columns: 1fr; }
+    .cheat-grid { grid-template-columns: 1fr; }
+    .concept-grid { grid-template-columns: 1fr; }
+    .container { padding: 0 16px; }
+  }
+
+  @media print {
+    .top-nav { display: none; }
+    .module { break-inside: avoid; }
+    body { background: #fff; }
+  }
+
+  /* ── Flow diagrams ── */
+  .flow-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin: 12px 0;
+  }
+
+  .flow-step {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--white);
+    border: 1px solid var(--rule);
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .flow-step.active {
+    background: var(--accent-light);
+    border-color: var(--accent);
+    color: var(--accent-dark);
+  }
+
+  .flow-arrow {
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  /* ── Numbered list for exercises ── */
+  .numbered-steps {
+    counter-reset: step-counter;
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+  }
+
+  .numbered-steps li {
+    counter-increment: step-counter;
+    padding: 8px 0 8px 36px;
+    position: relative;
+    font-size: 13px;
+    border-bottom: 1px solid var(--rule);
+    line-height: 1.6;
+  }
+
+  .numbered-steps li:last-child { border-bottom: none; }
+
+  .numbered-steps li::before {
+    content: counter(step-counter);
+    position: absolute;
+    left: 0;
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    color: var(--accent);
+    line-height: 1;
+    top: 10px;
+  }
+
+  p { margin: 6px 0; font-size: 13.5px; line-height: 1.65; }
+  p + p { margin-top: 4px; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════ NAV ═══════════════════════════ -->
+<nav class="top-nav">
+  <span class="brand">AI-Native SDLC</span>
+  <a href="#glossary">Glossary</a>
+  <a href="#mindset">Operator Mindset</a>
+  <a href="#foundations">Foundations</a>
+  <a href="#models">Models</a>
+  <a href="#tools">Tools</a>
+  <a href="#context">Context</a>
+  <a href="#mcp">MCP</a>
+  <a href="#libraries">Libraries</a>
+  <a href="#repo">Agent Repo</a>
+  <a href="#debug">Debugging</a>
+  <a href="#background">Background Agents</a>
+  <a href="#sdlc">AI-Native SDLC</a>
+  <a href="#exercises">Exercises</a>
+</nav>
+
+<!-- ═══════════════════════════ HERO ═══════════════════════════ -->
+<header class="hero">
+  <div class="eyebrow">Complete Course · Engineering &amp; Product Teams</div>
+  <h1>Making Your SDLC <em>AI-Native</em></h1>
+  <p class="subtitle">Operator training for AI coding agents. From mental models and context engineering to background agents and the self-driving codebase. Not theory — production patterns for teams shipping real software.</p>
+  <div class="hero-meta">
+    <span><strong>Session:</strong> ~80 min guided delivery</span>
+    <span><strong>Deep-dive:</strong> Self-paced reference</span>
+    <span><strong>Exercises:</strong> Post-session hands-on labs</span>
+    <span><strong>Audience:</strong> Intermediate practitioners</span>
+  </div>
+</header>
+
+<div class="container">
+
+<!-- ╔══════════════════════════════════════════════════════════╗
+     ║  MODULE 0: GLOSSARY                                     ║
+     ╚══════════════════════════════════════════════════════════╝ -->
+<section class="module mod-glossary" id="glossary">
+  <div class="module-inner">
+  <div class="module-header">
+    <div class="module-num">Module 0</div>
+    <h2>Glossary — Know the Language</h2>
+    <div class="module-sub">Before diving in, align on what every term means. Bookmark this section — you'll reference it throughout.</div>
+    <span class="module-time">Reference · 5 min overview</span>
+  </div>
+  <div class="module-body">
+
+    <div class="section-title">Core Terminology</div>
+    <div class="def-list">
+      <div class="def-item">
+        <div class="def-term">Agent</div>
+        <div class="def-desc">An autonomous AI system that can <strong>plan, act, observe, and iterate</strong> to complete a task. Unlike a chatbot (one-shot Q&amp;A) or a copilot (inline suggestions), an agent has a loop: it reads files, writes code, runs commands, inspects results, and keeps going until the job is done. <em>Think: a junior developer that never sleeps.</em></div>
+      </div>
+      <div class="def-item">
+        <div class="def-term">Harness</div>
+        <div class="def-desc">The <strong>runtime environment</strong> that orchestrates an agent. It provides the agent loop, tool access, file I/O, terminal control, and safety guardrails. <em>Examples: Cursor, Claude Code, Windsurf, GitHub Copilot, Aider, Cline.</em></div>
+      </div>
+      <div class="def-item">
+        <div class="def-term">Prompt</div>
+        <div class="def-desc">The instruction you give the agent. Can be a <strong>system prompt</strong> (persistent context the agent always sees), a <strong>user prompt</strong> (your request), or a <strong>custom prompt/command</strong> (a reusable template stored in your project). Quality of prompts directly determines quality of output.</div>
+      </div>
+      <div class="def-item">
+        <div class="def-term">Skill</div>
+        <div class="def-desc">A reusable, self-contained instruction set that teaches an agent <strong>how to do a specific task</strong>. Skills are markdown files (e.g., <code>SKILL.md</code>) stored in your project or shared repo. <em>Example: a skill that knows how to create a PR following your team's conventions.</em></div>
+      </div>
+      <div class="def-item">
+        <div class="def-term">Hook</div>
+        <div class="def-desc">A shell command, HTTP endpoint, or LLM prompt that runs <strong>automatically at a specific point</strong> in the agent's lifecycle — e.g., before a file edit (auto-format), after a command runs (lint check), or on session start. <em>Think: Git hooks, but for your AI agent.</em></div>
+      </div>
+      <div class="def-item">
+        <div class="def-term">Rule</div>
+        <div class="def-desc">A persistent instruction file that the agent always follows for a project or file type. Rules live in <code>.cursor/rules/</code> or <code>.cursorrules</code> (Cursor) and <code>CLAUDE.md</code> (Claude Code). <em>Think: team coding standards, but enforceable by AI.</em></div>
+      </div>
+      <div class="def-item">
+        <div class="def-term">Context Window</div>
+        <div class="def-desc">The <strong>total amount of text</strong> (measured in tokens) the model can "see" at once — your prompt, files, conversation history, tool outputs, everything. Current windows range from 128K to 1M+ tokens. <em>When you exceed it, the model forgets earlier context.</em></div>
+      </div>
+      <div class="def-item">
+        <div class="def-term">MCP</div>
+        <div class="def-desc"><strong>Model Context Protocol</strong> — an open standard (by Anthropic) that lets agents securely connect to external tools, APIs, and databases through a uniform interface. Think of it as "USB for AI" — plug in a database, a Jira instance, or a Slack workspace, and the agent can use it.</div>
+      </div>
+      <div class="def-item">
+        <div class="def-term">Token</div>
+        <div class="def-desc">The fundamental unit of text for LLMs. Roughly 1 token ≈ 4 characters or ~¾ of a word in English. A 200K-token context window holds roughly 150,000 words — about 500 pages of a book, or a large codebase.</div>
+      </div>
+      <div class="def-item">
+        <div class="def-term">Open Weights</div>
+        <div class="def-desc">A model whose trained weight files are publicly available for download, fine-tuning, and self-hosting — but not necessarily the training data or full pipeline. <em>This is what most people call "open source AI" (Llama, DeepSeek, Qwen), though strictly it's "open weights."</em></div>
+      </div>
+      <div class="def-item">
+        <div class="def-term">MoE</div>
+        <div class="def-desc"><strong>Mixture of Experts</strong> — an architecture where the model has many "expert" sub-networks but only activates a small fraction per query. This means a 400B-parameter model might only use 17B parameters per inference, making it fast and cheap. <em>Nearly every frontier model in 2026 uses MoE.</em></div>
+      </div>
+      <div class="def-item">
+        <div class="def-term">Subagent</div>
+        <div class="def-desc">A child agent spawned by a parent agent to handle a subtask in isolation — with its own context window, often in a separate git worktree. Enables parallel work and prevents context pollution.</div>
+      </div>
+      <div class="def-item">
+        <div class="def-term">Worktree</div>
+        <div class="def-desc">A Git feature that lets you have multiple working directories from the same repo simultaneously. Agents use worktrees to work on tasks in isolation without interfering with each other or your main branch.</div>
+      </div>
+      <div class="def-item">
+        <div class="def-term">Grounding</div>
+        <div class="def-desc">The practice of <strong>injecting reality into the context window</strong> — retrieving your actual codebase patterns, current docs, and constraints before the agent generates code. Without grounding, agents hallucinate plausible-sounding solutions based on training data. With grounding, they build on what actually exists.</div>
+      </div>
+      <div class="def-item">
+        <div class="def-term">Background Agent</div>
+        <div class="def-desc">An AI agent that runs <strong>autonomously on cloud infrastructure</strong>, triggered by events (PR opened, issue created, schedule) rather than manual invocation. Unlike coding agents that run on localhost, background agents are decoupled from your device and session. <em>You trigger it, walk away, and review the output later.</em></div>
+      </div>
+      <div class="def-item">
+        <div class="def-term">Compaction</div>
+        <div class="def-desc">The process of <strong>summarizing conversation history</strong> to free up context window space. The agent condenses what happened so far into a shorter summary, losing detail but preserving key decisions. Essential for long sessions. <em>Claude Code: <code>/compact</code>. Cursor: automatic or new chat.</em></div>
+      </div>
+      <div class="def-item">
+        <div class="def-term">Checkpoint</div>
+        <div class="def-desc">A <strong>restore point</strong> in the agent's work — a saved state of files you can roll back to if the agent goes off track. <em>Claude Code: <code>/rewind</code>. Cursor: built-in checkpoint system.</em> Enables aggressive experimentation without risk.</div>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════════════════════╗
+     ║  MODULE 0.5: THE OPERATOR MINDSET                        ║
+     ╚══════════════════════════════════════════════════════════╝ -->
+<section class="module mod-mindset" id="mindset">
+  <div class="module-inner">
+  <div class="module-header">
+    <div class="module-num">Module 1</div>
+    <h2>The Operator Mindset — Power Tools, Not Teammates</h2>
+    <div class="module-sub">The single most important mental model shift: stop treating agents like junior developers. Start operating them like precision instruments.</div>
+    <span class="module-time">~10 min in session</span>
+  </div>
+  <div class="module-body">
+
+    <div class="section-title">The Wrong Mental Model</div>
+    <p>Most developers treat AI agents like teammates: they wait for the agent to "understand," fix its code line-by-line, and fight context limits. Research shows developers without proper methodology are actually <strong>19% slower</strong> with AI tools. The difference between 19% slower and 10x faster is <em>operator skill</em>.</p>
+
+    <div class="callout key">
+      <strong>THE CORE TRUTH</strong>
+      AI agents aren't teammates — they're <strong>power tools</strong>. You don't collaborate with a table saw. You set it up precisely, feed it the right material, and verify the output. Same with agents. You are the operator. The quality of your setup determines the quality of the output.
+    </div>
+
+    <div class="section-title">Everything is Just Text</div>
+    <p>Here's the fundamental insight that demystifies AI agents: <strong>everything is just text flowing through a context window</strong>. No magic, no separate reasoning engine, no hidden state. When you see the agent "thinking" ("I should check the validation logic..."), that's not internal thought — it's text being generated in the context. The LLM is completely stateless. Its only "world" is the current context window.</p>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <h4>LLM = Brain</h4>
+        <p>A token prediction engine. Zero consciousness, zero intent. Samples from probability distributions learned from training data. Processes ~200K tokens of context. Predicts the next most probable token. <em>That's all it does.</em></p>
+      </div>
+      <div class="concept-card">
+        <h4>Agent Software = Body</h4>
+        <p>The LLM alone can only generate text. The harness wraps it with tools: file I/O, terminal access, web search, MCP connections. The LLM predicts "I should read auth.ts" → the harness executes <code>Read(src/auth.ts)</code> → the result flows back as text.</p>
+      </div>
+    </div>
+
+    <div class="section-title">The Four-Phase Operator Workflow</div>
+    <p>This is the systematic approach used in production environments. Every agent interaction follows this cycle:</p>
+
+    <div class="flow-row">
+      <span class="flow-step active">1. Research</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">2. Plan</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">3. Execute</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step active">4. Validate</span>
+    </div>
+
+    <table class="comparison-table">
+      <tr>
+        <th>Phase</th>
+        <th>What You Do</th>
+        <th>What the Agent Does</th>
+        <th>Key Principle</th>
+      </tr>
+      <tr>
+        <td><strong>1. Research</strong></td>
+        <td>Ground the agent in your codebase and domain before it acts</td>
+        <td>Reads files, searches code, explores architecture</td>
+        <td><strong>Grounding</strong> — inject reality into context. Without it, agents hallucinate.</td>
+      </tr>
+      <tr>
+        <td><strong>2. Plan</strong></td>
+        <td>Review the agent's proposed approach before execution</td>
+        <td>Proposes architecture, identifies files to change, outlines steps</td>
+        <td><strong>Exploration vs. Exactness</strong> — explore when uncertain, be directive when clear.</td>
+      </tr>
+      <tr>
+        <td><strong>3. Execute</strong></td>
+        <td>Let the agent implement, with checkpoint rhythm</td>
+        <td>Writes code, runs tests, iterates on failures</td>
+        <td><strong>Supervised or autonomous</strong> — based on trust and task criticality.</td>
+      </tr>
+      <tr>
+        <td><strong>4. Validate</strong></td>
+        <td>Verify against your mental model, then iterate or regenerate</td>
+        <td>Reviews its own work in fresh context, runs final checks</td>
+        <td><strong>Iterate vs. Regenerate</strong> — patch small issues, regenerate if fundamentally wrong.</td>
+      </tr>
+    </table>
+
+    <div class="section-title">Grounding — The Bridge Between Training Data and Reality</div>
+    <p>Grounding is how you inject reality into the context window. You retrieve relevant information — your codebase patterns, current docs, constraints — and feed it to the agent <em>before</em> generation. Without grounding, agents build solutions from training data patterns that may not match your system.</p>
+
+    <div class="concept-grid">
+      <div class="concept-card" style="border-left: 3px solid var(--accent);">
+        <h4>Code Grounding</h4>
+        <p>Before generating, have the agent read your existing code: "How is authentication handled in our codebase?" This populates context with your actual patterns, not generic ones.</p>
+      </div>
+      <div class="concept-card" style="border-left: 3px solid var(--blue);">
+        <h4>Evidence Requirement</h4>
+        <p>Always require evidence: file paths, line numbers, actual values. The agent cannot provide evidence without reading your code — this forces grounded responses instead of hallucinated ones.</p>
+      </div>
+    </div>
+
+    <div class="section-title">Prompting as Pattern Completion</div>
+    <p>Prompting is not conversation. It's <strong>pattern completion</strong>. You draw the beginning of the pattern you want the model to complete. Skip pleasantries — "please" and "thank you" dilute signal. Be specific, be structured, be explicit.</p>
+
+    <div class="code-block">
+<span class="comment">// BAD: vague, conversational</span>
+<span class="string">"Hey, can you please help me add some authentication to my API?
+I think JWT might work well. Thanks!"</span>
+
+<span class="comment">// GOOD: structured, constrained, with evidence requirements</span>
+<span class="string">"Add JWT authentication to the Express API.
+- Read src/middleware/ to understand existing middleware patterns
+- Use jsonwebtoken library (already in package.json)
+- Protect all /api/v1/* endpoints EXCEPT /api/v1/auth/login
+- Token expiry: 24h. Payload: userId + role.
+- Return 401 for missing/invalid tokens
+- Do NOT modify existing session middleware
+- Provide file paths and line numbers for all changes"</span>
+    </div>
+
+    <div class="callout warn">
+      <strong>THE THREE OPERATOR ERRORS</strong>
+      <ul class="content-list">
+        <li><strong>Anthropomorphizing:</strong> Assuming agents "know" things, "care" about outcomes, or "understand" your intent. They don't. They predict tokens.</li>
+        <li><strong>Trusting without verifying:</strong> Accepting generated code without running it. The agent is better at finding issues in code than generating perfect code on the first try.</li>
+        <li><strong>Context neglect:</strong> Not investing in rules files, not grounding before generation, not compacting. The context window is the agent's entire world — if it's messy, output is messy.</li>
+      </ul>
+    </div>
+
+    <div class="section-title">Tests as Guardrails</div>
+    <p>Build a <strong>sub-30-second smoke test suite</strong> covering critical junctions: core user journey, auth boundaries, database connectivity. Run it after <em>each agent task</em>, not after 20 changes. Codify this in your CLAUDE.md or rules file so agents run smoke tests automatically.</p>
+
+    <div class="callout info">
+      <strong>YOU ARE THE CIRCUIT BREAKER</strong>
+      AI agents are amplifiers — of your architectural clarity, your testing discipline, your code patterns. Good or bad, they compound what exists. Research shows AI code has 8x more duplication — not because agents create it, but because they amplify existing patterns. Every accepted line becomes pattern context for future agents. Your engineering judgment determines which direction the exponential curve bends.
+    </div>
+  </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════════════════════╗
+     ║  MODULE 2: FOUNDATIONS                                   ║
+     ╚══════════════════════════════════════════════════════════╝ -->
+<section class="module mod-foundations" id="foundations">
+  <div class="module-inner">
+  <div class="module-header">
+    <div class="module-num">Module 2</div>
+    <h2>Foundations — Primitives &amp; the Agent Loop</h2>
+    <div class="module-sub">What are agentic coding primitives, how the agent loop works, and why the harness matters more than the model.</div>
+    <span class="module-time">~15 min in session</span>
+  </div>
+  <div class="module-body">
+
+    <div class="section-title">The Spectrum: Chatbot → Copilot → Agent</div>
+    <div class="concept-grid">
+      <div class="concept-card">
+        <span class="icon">💬</span>
+        <h4>Chatbot</h4>
+        <p>One-shot Q&amp;A. You ask, it answers. No tool access, no iteration, no memory across turns. <em>ChatGPT in a browser tab.</em></p>
+      </div>
+      <div class="concept-card">
+        <span class="icon">✨</span>
+        <h4>Copilot</h4>
+        <p>Inline code suggestions as you type. Reactive, not proactive. Sees the current file but doesn't explore the codebase. <em>GitHub Copilot's tab-completion mode.</em></p>
+      </div>
+      <div class="concept-card">
+        <span class="icon">🤖</span>
+        <h4>Agent</h4>
+        <p>Autonomous loop: Plan → Act → Observe → Reflect → Iterate. Has tools (file read/write, terminal, web, MCP). Works across files, runs tests, self-corrects. <em>Cursor Agent, Claude Code, Copilot Agent.</em></p>
+      </div>
+    </div>
+
+    <div class="section-title">The Agent Loop</div>
+    <div class="diagram-box">
+      <span class="box highlight">User Prompt</span>
+      <span class="arrow">→</span>
+      <span class="box">Plan</span>
+      <span class="arrow">→</span>
+      <span class="box">Use Tools</span>
+      <span class="arrow">→</span>
+      <span class="box">Observe Results</span>
+      <span class="arrow">→</span>
+      <span class="box">Reflect</span>
+      <span class="arrow">→</span>
+      <span class="box highlight">Complete / Iterate</span>
+      <br>
+      <span style="font-size: 10px; color: var(--muted);">The agent keeps looping until the task is done (or it hits guardrails)</span>
+    </div>
+
+    <p>The key insight: <strong>the model is just one component</strong>. The harness provides the loop, the tools, the safety rails, and the context management. A mediocre model in a great harness often outperforms a great model in a bad harness.</p>
+
+    <div class="section-title">What is a Harness?</div>
+    <p>A harness is the runtime that wraps a model and gives it agency. It controls:</p>
+    <ul class="content-list">
+      <li><strong>The Agent Loop</strong> — how the model plans, acts, and iterates</li>
+      <li><strong>Tool Access</strong> — which tools the agent can use (file I/O, terminal, web, MCPs)</li>
+      <li><strong>Context Management</strong> — what the model sees in its window, when to compact, what to inject</li>
+      <li><strong>Safety &amp; Permissions</strong> — what the agent is allowed to do without asking (read? write? run commands?)</li>
+      <li><strong>UI/UX</strong> — how you interact (IDE, CLI, web), how diffs are shown, how you approve changes</li>
+    </ul>
+
+    <div class="section-title">Popular Harnesses Compared</div>
+    <table class="comparison-table">
+      <tr>
+        <th>Harness</th>
+        <th>Type</th>
+        <th>Models</th>
+        <th>Key Strength</th>
+        <th>Best For</th>
+      </tr>
+      <tr>
+        <td><strong>Cursor</strong></td>
+        <td>IDE (VS Code fork)</td>
+        <td>Claude, GPT, Gemini, custom</td>
+        <td>Best-in-class IDE integration; Plan/Agent/Ask modes; multi-agent tabs; worktrees</td>
+        <td>Teams who live in the IDE; visual diff review; multi-file refactors</td>
+      </tr>
+      <tr>
+        <td><strong>Claude Code</strong></td>
+        <td>CLI (terminal)</td>
+        <td>Claude family</td>
+        <td>Headless/SDK mode; powerful hooks system; subagents; deep terminal integration</td>
+        <td>CLI-first devs; CI/CD automation; scriptable AI workflows</td>
+      </tr>
+      <tr>
+        <td><strong>GitHub Copilot</strong></td>
+        <td>IDE extension + CLI + Web</td>
+        <td>GPT, Claude, Gemini</td>
+        <td>Deep GitHub integration; Copilot coding agent for issues; broad ecosystem</td>
+        <td>Teams heavily invested in GitHub; issue-to-PR automation</td>
+      </tr>
+      <tr>
+        <td><strong>Windsurf</strong></td>
+        <td>IDE (VS Code fork)</td>
+        <td>Multiple</td>
+        <td>Cascade agent with deep context awareness; flow-based UI</td>
+        <td>Teams wanting an opinionated, guided agent experience</td>
+      </tr>
+      <tr>
+        <td><strong>Aider</strong></td>
+        <td>CLI</td>
+        <td>Any (OpenAI, Anthropic, local)</td>
+        <td>Open source; model-agnostic; great for local/open weights models</td>
+        <td>OSS teams; privacy-sensitive; local model workflows</td>
+      </tr>
+      <tr>
+        <td><strong>Cline / Roo Code</strong></td>
+        <td>VS Code extension</td>
+        <td>Any</td>
+        <td>Open source; highly customizable; custom modes</td>
+        <td>Teams wanting full control over agent behavior</td>
+      </tr>
+    </table>
+
+    <div class="section-title">The Four Primitives</div>
+    <div class="concept-grid">
+      <div class="concept-card" style="border-left: 3px solid var(--accent);">
+        <h4>1. Rules / Instructions</h4>
+        <ul class="card-fields">
+          <li><strong>What:</strong> Persistent guidelines the agent always follows.</li>
+          <li><strong>Where:</strong> <code>.cursor/rules/</code>, <code>CLAUDE.md</code>, <code>.github/copilot-instructions.md</code></li>
+          <li><strong>Why:</strong> Encode your team's coding standards, architecture decisions, and project conventions so every agent follows them automatically.</li>
+        </ul>
+      </div>
+      <div class="concept-card" style="border-left: 3px solid var(--blue);">
+        <h4>2. Skills / Commands</h4>
+        <ul class="card-fields">
+          <li><strong>What:</strong> Reusable instruction templates triggered with <code>/command</code>.</li>
+          <li><strong>Where:</strong> <code>.cursor/skills/</code>, <code>.claude/skills/</code>, <code>.claude/commands/</code></li>
+          <li><strong>Why:</strong> Turn repeating workflows (PR creation, code review, test generation) into one-command actions.</li>
+        </ul>
+      </div>
+      <div class="concept-card" style="border-left: 3px solid var(--green);">
+        <h4>3. Hooks</h4>
+        <ul class="card-fields">
+          <li><strong>What:</strong> Automated scripts that fire at specific lifecycle events.</li>
+          <li><strong>Where:</strong> <code>.cursor/hooks.json</code>, <code>.claude/settings.json</code></li>
+          <li><strong>Why:</strong> Auto-format on edit, lint after changes, block dangerous commands, enforce team policies — without human intervention.</li>
+        </ul>
+      </div>
+      <div class="concept-card" style="border-left: 3px solid var(--purple);">
+        <h4>4. MCP Connections</h4>
+        <ul class="card-fields">
+          <li><strong>What:</strong> External tool integrations via the Model Context Protocol.</li>
+          <li><strong>Where:</strong> <code>.cursor/mcp.json</code>, Claude Code MCP config</li>
+          <li><strong>Why:</strong> Let agents read from your database, create Jira tickets, query Datadog, post to Slack — all through a standardized interface.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout key">
+      <strong>KEY INSIGHT</strong>
+      The combination of Rules + Skills + Hooks + MCPs is what transforms a generic AI model into <em>your team's</em> AI developer. These primitives are version-controlled, shareable, and composable — they are the building blocks of an AI-augmented engineering team.
+    </div>
+  </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════════════════════╗
+     ║  MODULE 2: THE MODEL LANDSCAPE                          ║
+     ╚══════════════════════════════════════════════════════════╝ -->
+<section class="module mod-models" id="models">
+  <div class="module-inner">
+  <div class="module-header">
+    <div class="module-num">Module 3</div>
+    <h2>The Model Landscape — Closed, Open Weights &amp; How to Choose</h2>
+    <div class="module-sub">Understanding the models powering your agents — what "open weights" really means, the MoE revolution, and practical model selection.</div>
+    <span class="module-time">~5 min in session · Deep-dive reference</span>
+  </div>
+  <div class="module-body">
+
+    <div class="section-title">Closed vs. Open Weights — What's the Difference?</div>
+    <div class="concept-grid">
+      <div class="concept-card">
+        <h4>Closed / Proprietary</h4>
+        <ul class="card-fields">
+          <li><strong>Access:</strong> API only — you send requests, get responses</li>
+          <li><strong>Control:</strong> Can't inspect weights, can't self-host, can't fine-tune</li>
+          <li><strong>Examples:</strong> Claude (Anthropic), GPT-5 (OpenAI), Gemini (Google)</li>
+          <li><strong>Strengths:</strong> Highest absolute quality, managed infrastructure, rich tool ecosystems</li>
+          <li><strong>Trade-offs:</strong> Data leaves your network, vendor lock-in, cost at scale</li>
+        </ul>
+      </div>
+      <div class="concept-card">
+        <h4>Open Weights</h4>
+        <ul class="card-fields">
+          <li><strong>Access:</strong> Download the model weights, run anywhere</li>
+          <li><strong>Control:</strong> Self-host, fine-tune, quantize, run air-gapped</li>
+          <li><strong>Examples:</strong> Llama 4 (Meta), DeepSeek V4 (DeepSeek), Qwen 3.5 (Alibaba), Mistral, Gemma 4</li>
+          <li><strong>Strengths:</strong> Privacy, cost at scale (~50% cheaper), no vendor lock-in</li>
+          <li><strong>Trade-offs:</strong> Ops burden, 1–3 points behind frontier on hardest benchmarks</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <strong>IMPORTANT DISTINCTION</strong>
+      "Open weights" ≠ "Open source." Open weights means the trained model files are public — you can run and fine-tune them. True open source would also include training data, preprocessing scripts, and full retraining capability. Most models called "open source" (Llama, DeepSeek, Qwen) are technically open weights.
+    </div>
+
+    <div class="section-title">The 2026 Model Landscape at a Glance</div>
+    <table class="comparison-table">
+      <tr>
+        <th>Model</th>
+        <th>Provider</th>
+        <th>Params (Total / Active)</th>
+        <th>Context</th>
+        <th>License</th>
+        <th>Best For</th>
+      </tr>
+      <tr>
+        <td><strong>Claude Opus 4.7</strong></td>
+        <td>Anthropic</td>
+        <td>Closed</td>
+        <td>1M</td>
+        <td>Proprietary</td>
+        <td>Highest reliability, complex reasoning</td>
+      </tr>
+      <tr>
+        <td><strong>GPT-5.5</strong></td>
+        <td>OpenAI</td>
+        <td>Closed</td>
+        <td>~1M</td>
+        <td>Proprietary</td>
+        <td>Broad knowledge, strong tool use</td>
+      </tr>
+      <tr>
+        <td><strong>Gemini 3.1 Pro</strong></td>
+        <td>Google</td>
+        <td>Closed</td>
+        <td>2M</td>
+        <td>Proprietary</td>
+        <td>Massive context, multimodal</td>
+      </tr>
+      <tr>
+        <td><strong>DeepSeek V4-Pro</strong></td>
+        <td>DeepSeek</td>
+        <td>1.6T / 49B (MoE)</td>
+        <td>1M</td>
+        <td>MIT</td>
+        <td>Coding (80.6% SWE-bench); best cost/quality</td>
+      </tr>
+      <tr>
+        <td><strong>Qwen 3.5</strong></td>
+        <td>Alibaba</td>
+        <td>397B / 17B (MoE)</td>
+        <td>256K</td>
+        <td>Apache 2.0</td>
+        <td>Multilingual, agentic, MCP-native</td>
+      </tr>
+      <tr>
+        <td><strong>Llama 4 Scout</strong></td>
+        <td>Meta</td>
+        <td>109B / 17B (MoE)</td>
+        <td>10M</td>
+        <td>Llama Community</td>
+        <td>Extreme long context (entire codebases)</td>
+      </tr>
+      <tr>
+        <td><strong>Llama 4 Maverick</strong></td>
+        <td>Meta</td>
+        <td>400B / 17B (MoE)</td>
+        <td>1M</td>
+        <td>Llama Community</td>
+        <td>Balanced open weights flagship</td>
+      </tr>
+      <tr>
+        <td><strong>Mistral Large 3</strong></td>
+        <td>Mistral</td>
+        <td>675B / 41B (MoE)</td>
+        <td>256K</td>
+        <td>Apache 2.0</td>
+        <td>Enterprise-friendly licensing, European</td>
+      </tr>
+      <tr>
+        <td><strong>Gemma 4</strong></td>
+        <td>Google</td>
+        <td>2B–31B</td>
+        <td>128K</td>
+        <td>Apache 2.0</td>
+        <td>On-device, edge deployment</td>
+      </tr>
+    </table>
+
+    <div class="section-title">Context Windows — Size Matters (But Strategy Matters More)</div>
+    <div class="concept-grid">
+      <div class="concept-card">
+        <h4>What is a Context Window?</h4>
+        <p>Everything the model can "see" at once: your prompt, system instructions, file contents, conversation history, tool outputs. Measured in tokens (1 token ≈ 4 chars). When you exceed it, earlier content is silently dropped.</p>
+      </div>
+      <div class="concept-card">
+        <h4>Current Window Sizes</h4>
+        <ul class="card-fields">
+          <li><strong>128K</strong> (~100K words) — Gemma, older models</li>
+          <li><strong>200K–256K</strong> — Most working models</li>
+          <li><strong>1M</strong> (~750K words) — Claude, DeepSeek, GPT-5</li>
+          <li><strong>10M</strong> — Llama 4 Scout (entire codebases!)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout warn">
+      <strong>BIGGER ISN'T ALWAYS BETTER</strong>
+      Models degrade on tasks requiring precise recall from the middle of very long contexts ("lost in the middle" problem). A 200K window with well-curated context often outperforms a 1M window stuffed with everything. This is why <strong>context engineering</strong> (Module 5) is a critical skill.
+    </div>
+
+    <div class="section-title">Practical Model Selection</div>
+    <ul class="content-list">
+      <li><strong>Highest-stakes, user-facing:</strong> Closed frontier models (Claude Opus, GPT-5.5)</li>
+      <li><strong>High-volume internal work:</strong> Open-weight models via API (DeepSeek V4-Flash at $0.28/M tokens)</li>
+      <li><strong>Privacy-sensitive or air-gapped:</strong> Self-hosted open weights (Qwen, Llama, Mistral)</li>
+      <li><strong>The practical reality:</strong> Most serious teams run a <strong>hybrid stack</strong> — closed for precision, open for volume</li>
+    </ul>
+  </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════════════════════╗
+     ║  MODULE 3: TOOLS DEEP DIVE                              ║
+     ╚══════════════════════════════════════════════════════════╝ -->
+<section class="module mod-tools" id="tools">
+  <div class="module-inner">
+  <div class="module-header">
+    <div class="module-num">Module 4</div>
+    <h2>Tools Deep Dive — Cursor, Claude Code, Copilot &amp; More</h2>
+    <div class="module-sub">Hands-on with the major harnesses: modes, commands, keyboard shortcuts, configuration, and when to use each.</div>
+    <span class="module-time">~20 min in session · Cheat sheets for reference</span>
+  </div>
+  <div class="module-body">
+
+    <!-- ── CURSOR ── -->
+    <div class="section-title">Cursor IDE</div>
+    <p>A VS Code fork with deeply integrated AI. All VS Code shortcuts work — Cursor adds AI-specific ones on top.</p>
+
+    <h4 style="margin: 16px 0 8px; font-size: 14px;">Modes</h4>
+    <table class="comparison-table">
+      <tr>
+        <th>Mode</th>
+        <th>What It Does</th>
+        <th>Tools Available</th>
+        <th>When to Use</th>
+      </tr>
+      <tr>
+        <td><strong>Agent</strong></td>
+        <td>Full autonomous coding — reads, writes, searches, runs terminal</td>
+        <td>All (search, read, edit, terminal, MCP)</td>
+        <td>Implementation, refactoring, multi-file changes</td>
+      </tr>
+      <tr>
+        <td><strong>Ask</strong></td>
+        <td>Read-only Q&amp;A — explores code, explains, no edits</td>
+        <td>Search + read only</td>
+        <td>Learning, exploration, understanding code</td>
+      </tr>
+      <tr>
+        <td><strong>Plan</strong></td>
+        <td>Research → clarify → plan → review → then "Build"</td>
+        <td>Search + read (writes on "Build")</td>
+        <td>Complex tasks; when you want to review before executing</td>
+      </tr>
+      <tr>
+        <td><strong>Debug</strong></td>
+        <td>Systematic troubleshooting with hypothesis testing</td>
+        <td>All</td>
+        <td>Bugs, failures, unexpected behavior</td>
+      </tr>
+      <tr>
+        <td><strong>Custom</strong></td>
+        <td>Your own modes with custom instructions and tool permissions</td>
+        <td>Configurable</td>
+        <td>Specialized workflows (e.g., code-review-only mode)</td>
+      </tr>
+    </table>
+
+    <h4 style="margin: 20px 0 8px; font-size: 14px;">Essential Keyboard Shortcuts (Mac)</h4>
+    <div class="cheat-grid">
+      <div class="cheat-card">
+        <h4>Core AI Shortcuts</h4>
+        <div class="cheat-item"><span class="cheat-desc">Open Agent panel</span> <span class="cheat-key">Cmd I</span></div>
+        <div class="cheat-item"><span class="cheat-desc">Open chat</span> <span class="cheat-key">Cmd L</span></div>
+        <div class="cheat-item"><span class="cheat-desc">Inline edit</span> <span class="cheat-key">Cmd K</span></div>
+        <div class="cheat-item"><span class="cheat-desc">Mode menu</span> <span class="cheat-key">Cmd .</span></div>
+        <div class="cheat-item"><span class="cheat-desc">Rotate modes</span> <span class="cheat-key">Shift Tab</span></div>
+        <div class="cheat-item"><span class="cheat-desc">Cycle models</span> <span class="cheat-key">Cmd /</span></div>
+        <div class="cheat-item"><span class="cheat-desc">Toggle Agent layout</span> <span class="cheat-key">Cmd E</span></div>
+        <div class="cheat-item"><span class="cheat-desc">Cursor Settings</span> <span class="cheat-key">Cmd Shift J</span></div>
+      </div>
+      <div class="cheat-card">
+        <h4>Context &amp; Navigation</h4>
+        <div class="cheat-item"><span class="cheat-desc">Add selection to chat</span> <span class="cheat-key">Cmd Shift L</span></div>
+        <div class="cheat-item"><span class="cheat-desc">Add selection to edit</span> <span class="cheat-key">Cmd Shift K</span></div>
+        <div class="cheat-item"><span class="cheat-desc">Cancel generation</span> <span class="cheat-key">Cmd Shift ⌫</span></div>
+        <div class="cheat-item"><span class="cheat-desc">Accept all changes</span> <span class="cheat-key">Cmd Return</span></div>
+        <div class="cheat-item"><span class="cheat-desc">Reject all changes</span> <span class="cheat-key">Cmd ⌫</span></div>
+        <div class="cheat-item"><span class="cheat-desc">New chat</span> <span class="cheat-key">Cmd N</span></div>
+        <div class="cheat-item"><span class="cheat-desc">Voice mode</span> <span class="cheat-key">Cmd Shift Space</span></div>
+        <div class="cheat-item"><span class="cheat-desc">@-mentions</span> <span class="cheat-key">@ in chat</span></div>
+      </div>
+    </div>
+
+    <h4 style="margin: 20px 0 8px; font-size: 14px;">Key Configuration Files</h4>
+    <div class="def-list">
+      <div class="def-item">
+        <div class="def-term">.cursor/rules/</div>
+        <div class="def-desc">Project rules — coding standards, architecture constraints, file-specific patterns. Auto-loaded by the agent.</div>
+      </div>
+      <div class="def-item">
+        <div class="def-term">.cursor/skills/</div>
+        <div class="def-desc">Reusable skills (SKILL.md files). The agent discovers and uses them based on task context.</div>
+      </div>
+      <div class="def-item">
+        <div class="def-term">.cursor/commands/</div>
+        <div class="def-desc">Custom slash commands. Triggered with <code>/command-name</code> in the agent input.</div>
+      </div>
+      <div class="def-item">
+        <div class="def-term">.cursor/hooks.json</div>
+        <div class="def-desc">Lifecycle hooks — scripts that run on agent events (before edit, after terminal command, etc.).</div>
+      </div>
+      <div class="def-item">
+        <div class="def-term">.cursor/mcp.json</div>
+        <div class="def-desc">MCP server configuration — external tools the agent can access.</div>
+      </div>
+      <div class="def-item">
+        <div class="def-term">.cursor/plans/</div>
+        <div class="def-desc">Saved plans from Plan mode. Documentation + resume point for interrupted work.</div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <strong>PRO TIP: PLAN → BUILD WORKFLOW</strong>
+      Start in Plan mode (Shift Tab) → describe your goal → let the agent research and ask questions → review the plan → click "Build" to execute. Save plans to <code>.cursor/plans/</code> for team documentation.
+    </div>
+
+    <!-- ── CLAUDE CODE ── -->
+    <div class="section-title">Claude Code (CLI)</div>
+    <p>A terminal-native agentic coding tool. Runs in your shell, operates on your filesystem, and can be automated via SDK. Ideal for CLI-first developers and CI/CD pipelines.</p>
+
+    <h4 style="margin: 16px 0 8px; font-size: 14px;">Essential Slash Commands</h4>
+    <div class="cheat-grid">
+      <div class="cheat-card">
+        <h4>Session &amp; Context</h4>
+        <div class="cheat-item"><span class="cheat-desc">Initialize project</span> <span class="cheat-key">/init</span></div>
+        <div class="cheat-item"><span class="cheat-desc">Show help</span> <span class="cheat-key">/help</span></div>
+        <div class="cheat-item"><span class="cheat-desc">Compress context</span> <span class="cheat-key">/compact</span></div>
+        <div class="cheat-item"><span class="cheat-desc">Clear conversation</span> <span class="cheat-key">/clear</span></div>
+        <div class="cheat-item"><span class="cheat-desc">Switch model</span> <span class="cheat-key">/model</span></div>
+        <div class="cheat-item"><span class="cheat-desc">Set effort level</span> <span class="cheat-key">/effort</span></div>
+        <div class="cheat-item"><span class="cheat-desc">View status</span> <span class="cheat-key">/status</span></div>
+        <div class="cheat-item"><span class="cheat-desc">Check health</span> <span class="cheat-key">/doctor</span></div>
+      </div>
+      <div class="cheat-card">
+        <h4>Workflow &amp; Advanced</h4>
+        <div class="cheat-item"><span class="cheat-desc">List skills</span> <span class="cheat-key">/skills</span></div>
+        <div class="cheat-item"><span class="cheat-desc">Manage hooks</span> <span class="cheat-key">/hooks</span></div>
+        <div class="cheat-item"><span class="cheat-desc">Manage MCP</span> <span class="cheat-key">/mcp</span></div>
+        <div class="cheat-item"><span class="cheat-desc">Manage subagents</span> <span class="cheat-key">/agents</span></div>
+        <div class="cheat-item"><span class="cheat-desc">Manage memory</span> <span class="cheat-key">/memory</span></div>
+        <div class="cheat-item"><span class="cheat-desc">View/resume sessions</span> <span class="cheat-key">/resume</span></div>
+        <div class="cheat-item"><span class="cheat-desc">Rollback changes</span> <span class="cheat-key">/rewind</span></div>
+        <div class="cheat-item"><span class="cheat-desc">Security review</span> <span class="cheat-key">/security-review</span></div>
+      </div>
+    </div>
+
+    <h4 style="margin: 20px 0 8px; font-size: 14px;">CLI Flags for Automation</h4>
+    <div class="code-block">
+<span class="comment"># One-shot mode (no interactive session)</span>
+claude <span class="keyword">-p</span> <span class="string">"Add input validation to UserController.java"</span>
+
+<span class="comment"># Continue last conversation</span>
+claude <span class="keyword">--continue</span>
+
+<span class="comment"># Resume a specific session</span>
+claude <span class="keyword">--resume</span> session-id
+
+<span class="comment"># Use a specific model</span>
+claude <span class="keyword">--model</span> opus-4.7
+
+<span class="comment"># Limit autonomous turns</span>
+claude <span class="keyword">--max-turns</span> 5
+
+<span class="comment"># Headless mode for CI/CD (skip all permissions)</span>
+claude <span class="keyword">-p</span> <span class="string">"Run tests and fix failures"</span> <span class="keyword">--dangerously-skip-permissions</span>
+
+<span class="comment"># Output as JSON (for piping into other tools)</span>
+claude <span class="keyword">-p</span> <span class="string">"List all API endpoints"</span> <span class="keyword">--output-format</span> json
+    </div>
+
+    <h4 style="margin: 20px 0 8px; font-size: 14px;">Key Configuration Files</h4>
+    <div class="def-list">
+      <div class="def-item">
+        <div class="def-term">CLAUDE.md</div>
+        <div class="def-desc">Project rules and context. Automatically loaded at session start. Equivalent to Cursor's <code>.cursor/rules/</code>. Can exist at project root, nested directories, or <code>~/.claude/CLAUDE.md</code> for global rules.</div>
+      </div>
+      <div class="def-item">
+        <div class="def-term">.claude/skills/</div>
+        <div class="def-desc">Reusable skills as SKILL.md files. Triggered by <code>/skill-name</code> or auto-discovered by the agent.</div>
+      </div>
+      <div class="def-item">
+        <div class="def-term">.claude/settings.json</div>
+        <div class="def-desc">Hooks configuration, permission settings, MCP servers, and other project-level settings.</div>
+      </div>
+    </div>
+
+    <h4 style="margin: 20px 0 8px; font-size: 14px;">Hook Events in Claude Code</h4>
+    <table class="comparison-table">
+      <tr>
+        <th>Event</th>
+        <th>When It Fires</th>
+        <th>Can Block?</th>
+        <th>Use Case</th>
+      </tr>
+      <tr>
+        <td><code>PreToolUse</code></td>
+        <td>Before the agent uses a tool (Bash, Edit, Write, etc.)</td>
+        <td>Yes</td>
+        <td>Block dangerous commands; validate edits before they happen</td>
+      </tr>
+      <tr>
+        <td><code>PostToolUse</code></td>
+        <td>After a tool completes</td>
+        <td>No</td>
+        <td>Auto-format after edits; run linter after file changes</td>
+      </tr>
+      <tr>
+        <td><code>SessionStart</code></td>
+        <td>When a new session begins</td>
+        <td>No</td>
+        <td>Load project context; check prerequisites</td>
+      </tr>
+      <tr>
+        <td><code>SessionEnd</code></td>
+        <td>When session ends</td>
+        <td>No</td>
+        <td>Cleanup; generate session summary</td>
+      </tr>
+      <tr>
+        <td><code>UserPromptSubmit</code></td>
+        <td>When user submits a prompt</td>
+        <td>Yes</td>
+        <td>Validate inputs; inject additional context</td>
+      </tr>
+      <tr>
+        <td><code>Stop</code></td>
+        <td>When agent completes a turn</td>
+        <td>No</td>
+        <td>Run final checks; notify completion</td>
+      </tr>
+    </table>
+
+    <h4 style="margin: 20px 0 8px; font-size: 14px;">Advanced Features</h4>
+    <div class="concept-grid">
+      <div class="concept-card">
+        <h4>Agent Teams &amp; Agent View</h4>
+        <p>Coordinate multiple Claude Code instances as a team. Agent view (<code>/agents</code>) shows what every session is doing from one screen. Use <code>--worktree</code> flag for isolated parallel sessions.</p>
+      </div>
+      <div class="concept-card">
+        <h4>Routines &amp; Scheduled Tasks</h4>
+        <p>Put Claude on autopilot: morning PR reviews, overnight CI failure analysis, weekly dependency audits. Run on Anthropic infrastructure (routines) or locally (Desktop). <code>/loop</code> for in-session polling.</p>
+      </div>
+      <div class="concept-card">
+        <h4>Channels</h4>
+        <p>Push events into a running session from Slack, Telegram, Discord, or webhooks. Forward CI results, chat messages, and monitoring events so Claude reacts while you're away.</p>
+      </div>
+      <div class="concept-card">
+        <h4>/ultraplan &amp; /ultrareview</h4>
+        <p><code>/ultraplan</code>: Plan in the cloud — draft on web, execute in terminal. <code>/ultrareview</code>: Deep multi-agent code review that finds and verifies bugs before merge.</p>
+      </div>
+    </div>
+
+    <div class="code-block">
+<span class="comment"># Parallel sessions in isolated worktrees</span>
+claude <span class="keyword">--worktree</span> feature-auth    <span class="comment"># Terminal 1</span>
+claude <span class="keyword">--worktree</span> fix-bug-123      <span class="comment"># Terminal 2 (isolated)</span>
+
+<span class="comment"># Pipe logs into Claude for analysis</span>
+tail -200 app.log | claude <span class="keyword">-p</span> <span class="string">"find anomalies and notify Slack"</span>
+
+<span class="comment"># Resume a session linked to a PR</span>
+claude <span class="keyword">--from-pr</span> https://github.com/org/repo/pull/42
+
+<span class="comment"># Set a completion goal — Claude keeps working until met</span>
+<span class="comment"># (inside session)</span>
+/goal all tests pass and coverage > 80%
+    </div>
+
+    <!-- ── COPILOT ── -->
+    <div class="section-title">GitHub Copilot</div>
+    <p>GitHub's AI assistant — available as VS Code extension, CLI, web interface, and as a coding agent that works on issues asynchronously.</p>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <h4>Copilot Chat</h4>
+        <p>In-IDE chat for Q&amp;A, explanations, and code generation. Works in VS Code, JetBrains, and Neovim.</p>
+      </div>
+      <div class="concept-card">
+        <h4>Copilot Coding Agent</h4>
+        <p>Assign a GitHub issue to Copilot → it creates a branch, implements the change, opens a PR. Runs asynchronously in the cloud.</p>
+      </div>
+      <div class="concept-card">
+        <h4>Copilot CLI</h4>
+        <p><code>gh copilot</code> for terminal assistance. Supports Spec Kit integration for spec-driven workflows.</p>
+      </div>
+    </div>
+
+    <div class="def-list">
+      <div class="def-item">
+        <div class="def-term">.github/copilot-instructions.md</div>
+        <div class="def-desc">Project-level instructions for Copilot. Equivalent to CLAUDE.md or .cursor/rules/.</div>
+      </div>
+    </div>
+
+    <!-- ── WINDSURF ── -->
+    <div class="section-title">Windsurf</div>
+    <p>A VS Code fork by Codeium with the "Cascade" agent — emphasizes deep context awareness and a flow-based, guided experience. Good for teams wanting a more opinionated agent with less configuration overhead.</p>
+
+    <div class="section-title">Side-by-Side: Debugging Workflow</div>
+    <div class="callout info">
+      <strong>FROM VS CODE TO AI-NATIVE DEBUGGING</strong>
+      <p style="margin-top: 6px;">You already know how to debug in VS Code — breakpoints, watch expressions, call stack, debug console. Here's how to translate that knowledge:</p>
+    </div>
+
+    <table class="comparison-table">
+      <tr>
+        <th>VS Code Debugging</th>
+        <th>Cursor Equivalent</th>
+        <th>Claude Code Equivalent</th>
+      </tr>
+      <tr>
+        <td>Set breakpoint, run debugger</td>
+        <td>Switch to Debug mode (<code>Cmd .</code> → Debug). Describe the bug. Agent sets breakpoints, runs, and analyzes.</td>
+        <td>Describe the bug. Agent adds logging/assertions, runs tests, analyzes output. Use <code>/rewind</code> if it goes wrong.</td>
+      </tr>
+      <tr>
+        <td>Inspect variables in watch panel</td>
+        <td>Ask in chat: "What's the value of X at line Y?" with <code>@file</code> reference</td>
+        <td>Agent reads code, infers data flow, adds targeted logging to confirm hypotheses</td>
+      </tr>
+      <tr>
+        <td>Step through code</td>
+        <td>Agent traces execution path across files, showing you the flow</td>
+        <td>Agent traces call chains, identifies the divergence point</td>
+      </tr>
+      <tr>
+        <td>Fix and re-run</td>
+        <td>Agent proposes fix → you approve changes → agent runs tests to verify</td>
+        <td>Agent patches, runs tests. If tests fail, it iterates. <code>/simplify</code> to clean up after.</td>
+      </tr>
+      <tr>
+        <td>Conditional breakpoints</td>
+        <td>Describe the condition in natural language: "Break when userId is null and request.path starts with /api"</td>
+        <td>Agent writes targeted test cases that reproduce the exact condition</td>
+      </tr>
+    </table>
+  </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════════════════════╗
+     ║  MODULE 4: CONTEXT WINDOW ENGINEERING                   ║
+     ╚══════════════════════════════════════════════════════════╝ -->
+<section class="module mod-context" id="context">
+  <div class="module-inner">
+  <div class="module-header">
+    <div class="module-num">Module 5</div>
+    <h2>Context Window Engineering</h2>
+    <div class="module-sub">How LLMs actually "see" your codebase, strategies for managing context, and avoiding the most common failure modes.</div>
+    <span class="module-time">~10 min in session</span>
+  </div>
+  <div class="module-body">
+
+    <div class="section-title">How the Agent Sees Your Code</div>
+    <p>When you ask an agent to work on a task, it doesn't "know" your codebase the way you do. It builds understanding through its context window — a fixed-size buffer that holds everything: your prompt, system instructions, file contents it reads, conversation history, and tool outputs.</p>
+
+    <div class="diagram-box">
+      <div style="text-align: left; max-width: 500px; margin: 0 auto;">
+        <span style="color: var(--accent); font-weight: 600;">Context Window (e.g., 200K tokens)</span><br>
+        ├── <span class="box">System Prompt + Rules</span> ~2–5K tokens<br>
+        ├── <span class="box">Conversation History</span> ~5–50K tokens<br>
+        ├── <span class="box">Files Read by Agent</span> ~10–100K tokens<br>
+        ├── <span class="box">Tool Outputs</span> ~5–30K tokens<br>
+        ├── <span class="box">MCP Responses</span> ~1–10K tokens<br>
+        └── <span class="box highlight">Remaining for Reasoning</span> ← this shrinks!
+      </div>
+    </div>
+
+    <div class="section-title">The Five Context Failure Modes</div>
+    <div class="concept-grid">
+      <div class="concept-card">
+        <h4>1. Context Overflow</h4>
+        <p>Window is full. Earlier messages get silently dropped. Agent "forgets" requirements you stated 20 messages ago. <strong>Fix:</strong> Use <code>/compact</code> regularly. Start new sessions for new tasks.</p>
+      </div>
+      <div class="concept-card">
+        <h4>2. Context Pollution</h4>
+        <p>Irrelevant files, failed attempts, and dead-end conversations clutter the window. Agent gets confused. <strong>Fix:</strong> Be selective with <code>@file</code> references. Use Plan mode to narrow scope first.</p>
+      </div>
+      <div class="concept-card">
+        <h4>3. Lost in the Middle</h4>
+        <p>Information in the middle of a long context gets less attention than the beginning and end. <strong>Fix:</strong> Put critical instructions at the start (rules) and end (your prompt) of context.</p>
+      </div>
+      <div class="concept-card">
+        <h4>4. Stale Context</h4>
+        <p>Agent references files it read earlier, but they've changed since. <strong>Fix:</strong> Have the agent re-read files before making changes. Use hooks to re-validate.</p>
+      </div>
+      <div class="concept-card">
+        <h4>5. Missing Context</h4>
+        <p>Agent doesn't know about relevant files/conventions it hasn't been shown. <strong>Fix:</strong> Use rules files, @-mentions, codebase search, and project-level rules/CLAUDE.md.</p>
+      </div>
+    </div>
+
+    <div class="section-title">Context Management Strategies</div>
+    <table class="comparison-table">
+      <tr>
+        <th>Strategy</th>
+        <th>How</th>
+        <th>When</th>
+      </tr>
+      <tr>
+        <td><strong>Compact regularly</strong></td>
+        <td>Claude Code: <code>/compact</code>. Cursor: auto-compacts, or start new chat.</td>
+        <td>Long sessions; after completing a subtask; when agent starts repeating itself</td>
+      </tr>
+      <tr>
+        <td><strong>One task, one session</strong></td>
+        <td>Start a fresh agent session for each distinct task</td>
+        <td>Always. Don't ask the agent to "also do X" after it's done Y.</td>
+      </tr>
+      <tr>
+        <td><strong>Rules as persistent context</strong></td>
+        <td>Put critical info in rules/CLAUDE.md — always loaded, doesn't compete with conversation</td>
+        <td>Coding standards, architecture decisions, dependency versions</td>
+      </tr>
+      <tr>
+        <td><strong>Subagents for isolation</strong></td>
+        <td>Spawn child agents with fresh context for subtasks</td>
+        <td>Complex tasks with independent sub-problems</td>
+      </tr>
+      <tr>
+        <td><strong>Selective file references</strong></td>
+        <td>Use <code>@file</code> to add only the specific files needed, not entire directories</td>
+        <td>Always. Be precise about what context the agent needs.</td>
+      </tr>
+      <tr>
+        <td><strong>Plan → Build</strong></td>
+        <td>Use Plan mode first to identify which files and approaches matter</td>
+        <td>Complex or ambiguous tasks</td>
+      </tr>
+    </table>
+
+    <div class="callout key">
+      <strong>THE GOLDEN RULE OF CONTEXT</strong>
+      Context engineering is the single highest-leverage skill for working with AI agents. The model is the engine; context is the fuel. Bad fuel = bad output, regardless of how powerful the engine is. Invest in your rules files, be intentional about what goes into the window, and compact aggressively.
+    </div>
+  </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════════════════════╗
+     ║  MODULE 5: MCP                                          ║
+     ╚══════════════════════════════════════════════════════════╝ -->
+<section class="module mod-mcp" id="mcp">
+  <div class="module-inner">
+  <div class="module-header">
+    <div class="module-num">Module 6</div>
+    <h2>MCP — Model Context Protocol</h2>
+    <div class="module-sub">How agents securely connect to your internal tools, APIs, and databases. The universal adapter for AI tooling.</div>
+    <span class="module-time">~10 min in session</span>
+  </div>
+  <div class="module-body">
+
+    <div class="section-title">What is MCP?</div>
+    <p>Model Context Protocol (MCP) is an <strong>open standard</strong> (created by Anthropic, now widely adopted) that defines how AI agents connect to external tools and data sources. Think of it as <strong>"USB for AI"</strong> — a universal plug that works across different harnesses and models.</p>
+
+    <div class="diagram-box">
+      <span class="box highlight">Your Agent</span>
+      <span class="arrow">→</span>
+      <span class="box">MCP Client</span>
+      <span class="arrow">→</span>
+      <span class="box">MCP Server</span>
+      <span class="arrow">→</span>
+      <span class="box highlight">Your Tools</span>
+      <br><br>
+      <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-top: 8px;">
+        <span class="box" style="font-size: 11px;">PostgreSQL</span>
+        <span class="box" style="font-size: 11px;">Jira / Linear</span>
+        <span class="box" style="font-size: 11px;">Slack</span>
+        <span class="box" style="font-size: 11px;">Datadog</span>
+        <span class="box" style="font-size: 11px;">Internal APIs</span>
+        <span class="box" style="font-size: 11px;">Git</span>
+      </div>
+    </div>
+
+    <div class="section-title">MCP Architecture</div>
+    <div class="concept-grid">
+      <div class="concept-card">
+        <h4>MCP Server</h4>
+        <p>Exposes <strong>Tools</strong> (functions the agent can call) and <strong>Resources</strong> (data the agent can read). A server wraps any API, database, or service. Can be a local process, a Docker container, or a remote service.</p>
+      </div>
+      <div class="concept-card">
+        <h4>MCP Client</h4>
+        <p>Built into the harness (Cursor, Claude Code, etc.). Discovers available servers, presents their tools to the agent, handles the protocol. You typically don't code this — the harness provides it.</p>
+      </div>
+    </div>
+
+    <div class="section-title">Practical MCP Examples</div>
+    <table class="comparison-table">
+      <tr>
+        <th>Use Case</th>
+        <th>MCP Server</th>
+        <th>What the Agent Can Do</th>
+      </tr>
+      <tr>
+        <td>Database queries</td>
+        <td>PostgreSQL MCP, MySQL MCP</td>
+        <td>Query your database, inspect schemas, generate migrations</td>
+      </tr>
+      <tr>
+        <td>Project management</td>
+        <td>Jira MCP, Linear MCP</td>
+        <td>Read tickets, update status, create subtasks</td>
+      </tr>
+      <tr>
+        <td>Monitoring</td>
+        <td>Datadog MCP, Sentry MCP</td>
+        <td>Check error rates, read logs, correlate incidents</td>
+      </tr>
+      <tr>
+        <td>Communication</td>
+        <td>Slack MCP</td>
+        <td>Read channel messages, post updates, search history</td>
+      </tr>
+      <tr>
+        <td>Browser testing</td>
+        <td>Playwright MCP, Browser MCP</td>
+        <td>Navigate pages, click elements, take screenshots, verify UI</td>
+      </tr>
+      <tr>
+        <td>Internal APIs</td>
+        <td>Custom MCP (you build it)</td>
+        <td>Anything your API exposes — deploy, feature flags, user management</td>
+      </tr>
+    </table>
+
+    <div class="section-title">Setting Up MCPs</div>
+    <div class="code-block">
+<span class="comment">// Cursor: .cursor/mcp.json</span>
+{
+  <span class="string">"mcpServers"</span>: {
+    <span class="string">"postgres"</span>: {
+      <span class="string">"command"</span>: <span class="string">"npx"</span>,
+      <span class="string">"args"</span>: [<span class="string">"@modelcontextprotocol/server-postgres"</span>,
+             <span class="string">"postgresql://user:pass@localhost/mydb"</span>]
+    },
+    <span class="string">"jira"</span>: {
+      <span class="string">"command"</span>: <span class="string">"npx"</span>,
+      <span class="string">"args"</span>: [<span class="string">"@modelcontextprotocol/server-jira"</span>],
+      <span class="string">"env"</span>: { <span class="string">"JIRA_TOKEN"</span>: <span class="string">"${JIRA_TOKEN}"</span> }
+    }
+  }
+}
+
+<span class="comment">// Claude Code: add via CLI</span>
+claude mcp add postgres -- npx @modelcontextprotocol/server-postgres postgresql://...
+    </div>
+
+    <div class="section-title">Building Your Own MCP Server</div>
+    <p>When your team has internal tools that don't have public MCP servers, build your own. An MCP server is a simple process that speaks the MCP protocol. SDKs are available in TypeScript, Python, Java, and Go.</p>
+
+    <div class="code-block">
+<span class="comment"># Minimal MCP server in TypeScript</span>
+<span class="keyword">import</span> { McpServer } <span class="keyword">from</span> <span class="string">"@modelcontextprotocol/sdk/server/mcp.js"</span>;
+
+<span class="keyword">const</span> server = <span class="keyword">new</span> McpServer({ name: <span class="string">"my-internal-api"</span> });
+
+server.tool(<span class="string">"deploy"</span>,
+  { env: z.enum([<span class="string">"staging"</span>, <span class="string">"prod"</span>]) },
+  <span class="keyword">async</span> ({ env }) => {
+    <span class="keyword">const</span> result = <span class="keyword">await</span> triggerDeploy(env);
+    <span class="keyword">return</span> { content: [{ type: <span class="string">"text"</span>, text: result }] };
+  }
+);
+    </div>
+
+    <div class="callout tip">
+      <strong>TEAM STRATEGY</strong>
+      Start with public MCP servers (database, browser). Then build one internal MCP for your most-used internal API. Share the configuration across the team via your agent repo (Module 8). The ROI compounds: every team member's agent gets the same capabilities.
+    </div>
+  </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════════════════════╗
+     ║  MODULE 6: POPULAR LIBRARIES                            ║
+     ╚══════════════════════════════════════════════════════════╝ -->
+<section class="module mod-libraries" id="libraries">
+  <div class="module-inner">
+  <div class="module-header">
+    <div class="module-num">Module 7</div>
+    <h2>Popular Libraries &amp; Frameworks</h2>
+    <div class="module-sub">The ecosystem of tools built on top of harnesses — methodology frameworks, memory systems, and spec-driven development.</div>
+    <span class="module-time">~10 min in session · Deep-dive reference</span>
+  </div>
+  <div class="module-body">
+
+    <div class="section-title">Superpowers — Methodology for Agents</div>
+    <div class="tags">
+      <span class="tag accent">192K+ GitHub Stars</span>
+      <span class="tag dark">14 Agents Supported</span>
+      <span class="tag light">MIT License</span>
+    </div>
+    <p><strong>What:</strong> A complete software development methodology shipped as composable skill files. Instead of letting agents "vibe code," Superpowers enforces a disciplined workflow: brainstorm → plan → implement (TDD) → review → ship.</p>
+    <p><strong>Key Skills:</strong></p>
+    <ul class="content-list">
+      <li><strong>brainstorming</strong> — Socratic design refinement before writing any code</li>
+      <li><strong>writing-plans</strong> — Detailed implementation plans with file paths and verification steps</li>
+      <li><strong>test-driven-development</strong> — Enforces RED-GREEN-REFACTOR cycle; deletes code written before tests</li>
+      <li><strong>subagent-driven-development</strong> — Dispatches subagents per task with two-stage review</li>
+      <li><strong>systematic-debugging</strong> — 4-phase root cause analysis process</li>
+      <li><strong>using-git-worktrees</strong> — Parallel development in isolated branches</li>
+    </ul>
+    <p><strong>How it works:</strong> Each skill file opens with an "Iron Law" — a non-negotiable rule with a table of rationalizations the agent might try to skip it. The agent reads these and follows the methodology.</p>
+    <p><strong>Supports:</strong> Claude Code, Cursor, Codex, Copilot, Gemini CLI, Windsurf, Cline, and 7 others.</p>
+
+    <div class="callout key">
+      <strong>WHY THIS MATTERS</strong>
+      Superpowers proves that the biggest improvement in AI code quality comes not from better models, but from better <em>methodology enforcement</em>. "Don't write code until you have a plan. Don't commit until tests pass." Simple rules, massive impact.
+    </div>
+
+    <div class="section-title">GitHub Spec Kit — Spec-Driven Development</div>
+    <div class="tags">
+      <span class="tag accent">104K+ GitHub Stars</span>
+      <span class="tag dark">30+ Agents Supported</span>
+      <span class="tag light">MIT License</span>
+    </div>
+    <p><strong>What:</strong> An open-source toolkit that makes specifications the primary artifact — not code. "Specifications don't serve code — code serves specifications."</p>
+
+    <div class="flow-row">
+      <span class="flow-step active">Constitution</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">Specify</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">Plan</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">Tasks</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step active">Implement</span>
+    </div>
+
+    <div class="def-list">
+      <div class="def-item">
+        <div class="def-term">/speckit.constitution</div>
+        <div class="def-desc">Create or update project governing principles and development guidelines</div>
+      </div>
+      <div class="def-item">
+        <div class="def-term">/speckit.specify</div>
+        <div class="def-desc">Define what you want to build — requirements and user stories</div>
+      </div>
+      <div class="def-item">
+        <div class="def-term">/speckit.plan</div>
+        <div class="def-desc">Create technical implementation plans with your chosen tech stack</div>
+      </div>
+      <div class="def-item">
+        <div class="def-term">/speckit.tasks</div>
+        <div class="def-desc">Generate actionable task lists for implementation</div>
+      </div>
+      <div class="def-item">
+        <div class="def-term">/speckit.implement</div>
+        <div class="def-desc">Build the feature according to the plan</div>
+      </div>
+    </div>
+    <p><strong>Maturity levels:</strong> Spec-first (write spec before prompting) → Spec-anchored (spec and code stay in sync, Spec Kit lives here) → Spec-as-source (spec is the only source, code is fully derived).</p>
+
+    <div class="section-title">Beads — Persistent Agent Memory</div>
+    <div class="tags">
+      <span class="tag accent">20K+ GitHub Stars</span>
+      <span class="tag dark">Dolt-Powered</span>
+      <span class="tag light">MIT License</span>
+    </div>
+    <p><strong>What:</strong> A distributed graph issue tracker that gives agents persistent, structured memory. Replaces messy markdown TODO lists with a dependency-aware graph powered by a version-controlled SQL database (Dolt).</p>
+    <p><strong>The Problem it Solves:</strong> Agents lose context between sessions. They can't track what they've done, what's blocked, or what's next. Beads is external long-term memory for agents.</p>
+
+    <div class="def-list">
+      <div class="def-item">
+        <div class="def-term">bd ready</div>
+        <div class="def-desc">List tasks with no open blockers — what the agent should work on next</div>
+      </div>
+      <div class="def-item">
+        <div class="def-term">bd create</div>
+        <div class="def-desc">Create a new task with priority, dependencies, and metadata</div>
+      </div>
+      <div class="def-item">
+        <div class="def-term">bd prime</div>
+        <div class="def-desc">Sync the agent with current project state — inject context and persistent memories</div>
+      </div>
+      <div class="def-item">
+        <div class="def-term">bd remember</div>
+        <div class="def-desc">Store a persistent insight that survives session restarts and context compaction</div>
+      </div>
+      <div class="def-item">
+        <div class="def-term">bd update --claim</div>
+        <div class="def-desc">Atomically claim a task (prevents multi-agent collision)</div>
+      </div>
+    </div>
+
+    <p><strong>Key features:</strong> Semantic compaction (summarizes old tasks to save context), hash-based IDs (no merge conflicts), multi-agent coordination via task claiming, and persistent memories via <code>bd remember</code>.</p>
+
+    <div class="section-title">BMAD — Full-Lifecycle AI Framework</div>
+    <div class="tags">
+      <span class="tag accent">46K+ GitHub Stars</span>
+      <span class="tag dark">12+ Agent Personas</span>
+      <span class="tag dark">34+ Workflows</span>
+      <span class="tag light">Open Source</span>
+    </div>
+    <p><strong>What:</strong> "Breakthrough Method for Agile AI-Driven Development" — a comprehensive framework that puts AI agents at every phase of the SDLC, not just coding. 12+ specialized agent personas (Business Analyst, Architect, Developer, UX Designer, etc.) with 34+ guided workflows.</p>
+
+    <div class="flow-row">
+      <span class="flow-step">Phase 1: Analysis</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">Phase 2: Planning (PRD)</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">Phase 3: Architecture</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step active">Phase 4: Implementation</span>
+    </div>
+
+    <p><strong>Key idea:</strong> By Phase 4 (implementation), the agent has a complete specification chain — it doesn't guess, it executes against a well-defined plan that was shaped by requirements, architecture, and design decisions from earlier phases.</p>
+
+    <div class="section-title">How These Tools Work Together</div>
+    <div class="callout info">
+      <strong>THE STACK</strong>
+      <p style="margin-top: 6px;">These are <strong>complementary layers</strong>, not competitors:</p>
+      <ul class="content-list">
+        <li><strong>Spec Kit / BMAD</strong> — Strategic: <em>What</em> to build and <em>how</em> to plan it</li>
+        <li><strong>Superpowers</strong> — Execution: <em>How</em> to build it with discipline (TDD, reviews, etc.)</li>
+        <li><strong>Beads</strong> — Memory: Track progress across sessions and agents</li>
+        <li><strong>Your Harness</strong> (Cursor/Claude Code) — Runtime: Where it all executes</li>
+      </ul>
+    </div>
+  </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════════════════════╗
+     ║  MODULE 7: BUILDING YOUR AGENT REPO                     ║
+     ╚══════════════════════════════════════════════════════════╝ -->
+<section class="module mod-repo" id="repo">
+  <div class="module-inner">
+  <div class="module-header">
+    <div class="module-num">Module 8</div>
+    <h2>Building Your Team's Central Agent Repository</h2>
+    <div class="module-sub">A shared, version-controlled repository of skills, rules, hooks, and MCPs that the whole team uses and evolves.</div>
+    <span class="module-time">~10 min in session</span>
+  </div>
+  <div class="module-body">
+
+    <div class="section-title">Why a Central Agent Repo?</div>
+    <div class="concept-grid">
+      <div class="concept-card">
+        <h4>Consistency</h4>
+        <p>Every developer's agent follows the same coding standards, architecture patterns, and review processes. No more "works differently on my machine."</p>
+      </div>
+      <div class="concept-card">
+        <h4>Compounding Returns</h4>
+        <p>When one developer creates a great skill (e.g., "generate Spring Boot controller with our patterns"), the whole team benefits. Skills improve via PRs just like code.</p>
+      </div>
+      <div class="concept-card">
+        <h4>Onboarding Accelerator</h4>
+        <p>New team members get the team's AI capabilities on Day 1. Their agent already knows your conventions, tools, and workflows.</p>
+      </div>
+      <div class="concept-card">
+        <h4>Knowledge Preservation</h4>
+        <p>Team expertise gets encoded in skills and rules. When someone leaves, their knowledge doesn't.</p>
+      </div>
+    </div>
+
+    <div class="section-title">Recommended Repository Structure</div>
+    <div class="code-block">
+ai-team-agents/
+├── README.md                        <span class="comment"># Setup guide, contribution guidelines</span>
+├── CLAUDE.md                        <span class="comment"># Shared rules for Claude Code</span>
+│
+├── rules/                           <span class="comment"># Shared rules/instructions</span>
+│   ├── coding-standards.md          <span class="comment"># Language-agnostic standards</span>
+│   ├── java-conventions.md          <span class="comment"># Java/Spring specific rules</span>
+│   ├── react-patterns.md            <span class="comment"># React/Angular patterns</span>
+│   ├── api-design.md                <span class="comment"># REST API conventions</span>
+│   ├── security.md                  <span class="comment"># Security requirements</span>
+│   └── testing.md                   <span class="comment"># Testing standards (unit, integration, e2e)</span>
+│
+├── skills/                          <span class="comment"># Reusable skills (SKILL.md files)</span>
+│   ├── create-pr/SKILL.md           <span class="comment"># PR creation with team template</span>
+│   ├── code-review/SKILL.md         <span class="comment"># Code review checklist</span>
+│   ├── generate-tests/SKILL.md      <span class="comment"># Test generation for your stack</span>
+│   ├── api-endpoint/SKILL.md        <span class="comment"># Create REST endpoint (Spring Boot)</span>
+│   ├── react-component/SKILL.md     <span class="comment"># Create React component with patterns</span>
+│   ├── db-migration/SKILL.md        <span class="comment"># Database migration workflow</span>
+│   ├── legacy-analyze/SKILL.md      <span class="comment"># Analyze legacy code for modernization</span>
+│   └── incident-response/SKILL.md   <span class="comment"># Incident debugging workflow</span>
+│
+├── hooks/                           <span class="comment"># Shared hook scripts</span>
+│   ├── auto-format.sh               <span class="comment"># Run formatter after edits</span>
+│   ├── lint-check.sh                <span class="comment"># Run linter after file changes</span>
+│   ├── block-secrets.sh             <span class="comment"># Prevent committing secrets</span>
+│   └── test-on-save.sh              <span class="comment"># Run relevant tests after edits</span>
+│
+├── mcps/                            <span class="comment"># MCP server configurations</span>
+│   ├── postgres-config.json         <span class="comment"># Database MCP setup</span>
+│   ├── jira-config.json             <span class="comment"># Jira integration</span>
+│   └── internal-api/                <span class="comment"># Custom MCP for internal tools</span>
+│       ├── server.ts
+│       ├── package.json
+│       └── README.md
+│
+├── prompts/                         <span class="comment"># Reusable prompt templates</span>
+│   ├── prd-template.md              <span class="comment"># AI-native PRD template</span>
+│   ├── design-review.md             <span class="comment"># Architecture review prompt</span>
+│   └── sprint-planning.md           <span class="comment"># Sprint planning with AI</span>
+│
+└── install.sh                       <span class="comment"># One-command setup script</span>
+    </div>
+
+    <div class="section-title">Example Skill: Create PR with Team Conventions</div>
+    <div class="code-block">
+<span class="comment"># skills/create-pr/SKILL.md</span>
+
+<span class="keyword"># Create Pull Request</span>
+
+When creating a pull request, follow these steps:
+
+1. Run `git diff main...HEAD` to see all changes
+2. Analyze the changes and categorize them:
+   - Feature, bugfix, refactor, chore, docs
+3. Write the PR title: `[TYPE] Brief description`
+4. Write the PR body using this template:
+
+<span class="string">## Summary</span>
+<span class="string">&lt;2-3 bullet points explaining WHY, not WHAT&gt;</span>
+
+<span class="string">## Changes</span>
+<span class="string">&lt;Group by area: API, UI, Database, etc.&gt;</span>
+
+<span class="string">## Testing</span>
+<span class="string">&lt;How this was tested. Which tests were added.&gt;</span>
+
+<span class="string">## Checklist</span>
+<span class="string">- [ ] Tests pass locally</span>
+<span class="string">- [ ] No new warnings</span>
+<span class="string">- [ ] API docs updated (if applicable)</span>
+<span class="string">- [ ] Migration is reversible (if applicable)</span>
+
+5. Create the PR using `gh pr create`
+6. Add appropriate labels and reviewers
+    </div>
+
+    <div class="section-title">Contribution Workflow</div>
+    <ol class="content-list">
+      <li><strong>Identify a repeating workflow</strong> — "I keep telling the agent the same thing"</li>
+      <li><strong>Write a skill/rule</strong> — Encode the workflow as a markdown file</li>
+      <li><strong>Test it</strong> — Use it in your own work for a week</li>
+      <li><strong>PR it</strong> — Submit to the agent repo with examples and context</li>
+      <li><strong>Team review</strong> — Other team members review and suggest improvements</li>
+      <li><strong>Merge &amp; distribute</strong> — Everyone's agent gets the upgrade via <code>git pull</code></li>
+    </ol>
+
+    <div class="callout tip">
+      <strong>INSTALL SCRIPT</strong>
+      Create a one-command setup: <code>./install.sh</code> that symlinks rules, skills, and hooks into each developer's Cursor and Claude Code configuration. New team member? <code>git clone ai-team-agents && ./install.sh</code> — done.
+    </div>
+  </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════════════════════╗
+     ║  MODULE 8: DEBUGGING                                    ║
+     ╚══════════════════════════════════════════════════════════╝ -->
+<section class="module mod-debug" id="debug">
+  <div class="module-inner">
+  <div class="module-header">
+    <div class="module-num">Module 9</div>
+    <h2>Debugging with AI-Native Tools</h2>
+    <div class="module-sub">Translating your VS Code debugging skills to Cursor and Claude Code — plus new debugging paradigms that AI enables.</div>
+    <span class="module-time">~5 min in session · Reference</span>
+  </div>
+  <div class="module-body">
+
+    <div class="section-title">The Debugging Paradigm Shift</div>
+    <p>Traditional debugging is <strong>you driving</strong>: you set breakpoints, you step through code, you inspect variables, you form hypotheses. AI-native debugging is <strong>evidence-based</strong>: you describe the problem, the agent forms hypotheses, instruments the code, runs experiments, and proves findings with reproducible evidence. Your job shifts from "driving" to "directing."</p>
+
+    <div class="callout key">
+      <strong>THE EVIDENCE RULE</strong>
+      Never accept a fix without reproducible proof it works. The core debugging workflow is: <strong>REPRODUCE → GROUND → DIAGNOSE → FIX → VERIFY</strong>. The agent must re-run the reproduction after every fix attempt. If it can't prove the fix works, it iterates with a new hypothesis.
+    </div>
+
+    <div class="section-title">Cursor Debugging Workflow</div>
+    <ol class="numbered-steps">
+      <li><strong>Switch to Debug mode</strong> — <code>Cmd .</code> → Debug. This activates systematic troubleshooting with hypothesis testing.</li>
+      <li><strong>Describe the bug</strong> — "When I submit the form with an empty email field, the app crashes with a NullPointerException instead of showing a validation error."</li>
+      <li><strong>Add context</strong> — Use <code>@file</code> to reference the relevant controller, service, and test files. Paste the error stack trace.</li>
+      <li><strong>Let the agent investigate</strong> — It will read files, trace the execution path, identify the root cause, and propose a fix.</li>
+      <li><strong>Review the fix</strong> — Cursor shows diffs inline. Accept or reject each change. The agent runs tests to verify.</li>
+      <li><strong>If the fix doesn't work</strong> — Tell the agent. It will form a new hypothesis and try again. Use <code>Cmd Shift ⌫</code> to cancel if it's going in circles.</li>
+    </ol>
+
+    <div class="section-title">Claude Code Debugging Workflow</div>
+    <ol class="numbered-steps">
+      <li><strong>Describe the bug</strong> with context — paste the error, reference the file, describe expected vs actual behavior.</li>
+      <li><strong>The agent traces the problem</strong> — reads relevant code, adds targeted logging, runs the failing test.</li>
+      <li><strong>Root cause identified</strong> — the agent explains what's wrong and why.</li>
+      <li><strong>Fix applied and verified</strong> — patches the code, runs tests. If tests fail, it iterates automatically.</li>
+      <li><strong>Cleanup</strong> — run <code>/simplify</code> to review the changes for quality and remove debugging artifacts.</li>
+      <li><strong>If it goes wrong</strong> — <code>/rewind</code> to roll back to a previous state and try a different approach.</li>
+    </ol>
+
+    <div class="section-title">Key Commands for Debugging</div>
+    <div class="cheat-grid">
+      <div class="cheat-card">
+        <h4>Cursor</h4>
+        <div class="cheat-item"><span class="cheat-desc">Enter Debug mode</span> <span class="cheat-key">Cmd . → Debug</span></div>
+        <div class="cheat-item"><span class="cheat-desc">Add error context</span> <span class="cheat-key">Cmd V (paste)</span></div>
+        <div class="cheat-item"><span class="cheat-desc">Reference file</span> <span class="cheat-key">@filename</span></div>
+        <div class="cheat-item"><span class="cheat-desc">Cancel bad generation</span> <span class="cheat-key">Cmd Shift ⌫</span></div>
+        <div class="cheat-item"><span class="cheat-desc">Run tests</span> <span class="cheat-key">Terminal Cmd K</span></div>
+      </div>
+      <div class="cheat-card">
+        <h4>Claude Code</h4>
+        <div class="cheat-item"><span class="cheat-desc">Rollback changes</span> <span class="cheat-key">/rewind</span></div>
+        <div class="cheat-item"><span class="cheat-desc">Clean up code</span> <span class="cheat-key">/simplify</span></div>
+        <div class="cheat-item"><span class="cheat-desc">Check installation</span> <span class="cheat-key">/doctor</span></div>
+        <div class="cheat-item"><span class="cheat-desc">View cost</span> <span class="cheat-key">/cost</span></div>
+        <div class="cheat-item"><span class="cheat-desc">Compress context</span> <span class="cheat-key">/compact</span></div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <strong>PRO TIP: DEBUGGING AGENTS WITH AGENTS</strong>
+      If an agent is producing bad output, don't debug the code — debug the <em>context</em>. Ask the agent: "What files have you read? What assumptions are you making? Show me your understanding of the architecture." Often the problem is missing or incorrect context, not a bad model.
+    </div>
+  </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════════════════════╗
+     ║  MODULE 10: BACKGROUND AGENTS                            ║
+     ╚══════════════════════════════════════════════════════════╝ -->
+<section class="module mod-background" id="background">
+  <div class="module-inner">
+  <div class="module-header">
+    <div class="module-num">Module 10</div>
+    <h2>Background Agents &amp; The Self-Driving Codebase</h2>
+    <div class="module-sub">The maturity model from coding agents on localhost to autonomous agents in the cloud. Why individual speed-ups don't equal team speed-ups — and what does.</div>
+    <span class="module-time">~5 min in session · Vision</span>
+  </div>
+  <div class="module-body">
+
+    <div class="section-title">The False Summit</div>
+    <p>Organizations that adopted coding agents saw individual engineers get faster. But cycle time didn't improve and DORA metrics stayed flat. Why? Gains compound with the <em>individual</em>, not the organization. Making one developer 2x faster doesn't halve your delivery time — it just means that developer is less busy while the bottleneck remains elsewhere.</p>
+
+    <div class="callout warn">
+      <strong>THE LOCALHOST CEILING</strong>
+      Coding agents run on your laptop. They fight over machine state, secrets become exposed in shell history, everything stops when the machine sleeps. Agents can't be triggered by events, can't run overnight, can't work across repos. Professional engineering requires decoupling agents from developer workstations.
+    </div>
+
+    <div class="section-title">Coding Agent vs. Background Agent</div>
+    <table class="comparison-table">
+      <tr>
+        <th></th>
+        <th>Coding Agent (Today)</th>
+        <th>Background Agent (Next)</th>
+      </tr>
+      <tr>
+        <td><strong>Runs on</strong></td>
+        <td>Your laptop / localhost</td>
+        <td>Cloud infrastructure (sandboxed)</td>
+      </tr>
+      <tr>
+        <td><strong>Triggered by</strong></td>
+        <td>You, manually</td>
+        <td>Events: PR opened, issue created, schedule, webhook</td>
+      </tr>
+      <tr>
+        <td><strong>Scope</strong></td>
+        <td>Single task, single repo</td>
+        <td>Cross-repo, full SDLC</td>
+      </tr>
+      <tr>
+        <td><strong>Developer role</strong></td>
+        <td>"In the loop" — watching, steering</td>
+        <td>"On the loop" — reviewing output, calibrating</td>
+      </tr>
+      <tr>
+        <td><strong>Governance</strong></td>
+        <td>Prompt-based (fragile)</td>
+        <td>Infrastructure-enforced (identity, audit trails, permissions)</td>
+      </tr>
+      <tr>
+        <td><strong>Stops when</strong></td>
+        <td>Machine sleeps, terminal closes</td>
+        <td>Task completes or hits human review gate</td>
+      </tr>
+    </table>
+
+    <div class="section-title">The Maturity Model</div>
+    <div class="flow-row">
+      <span class="flow-step active">1. Establish Primitives</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">2. Find Bottlenecks</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step active">3. Scale the Factory</span>
+    </div>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <h4>Step 1: Establish Primitives</h4>
+        <p><strong>Sandboxed execution</strong> (isolated environments with full toolchains), <strong>governance</strong> (identity, permissions, audit trails enforced at runtime, not by prompt), <strong>context &amp; connectivity</strong> (agents reach internal APIs, database replicas, private registries), and <strong>event-driven triggers</strong>.</p>
+      </div>
+      <div class="concept-card">
+        <h4>Step 2: Find Bottlenecks</h4>
+        <p>Survey developers. Map where time goes. Identify repetitive tasks with bounded blast radius: code review triage, CI failure analysis, dependency updates, CVE remediation, test coverage expansion, lint/standards enforcement.</p>
+      </div>
+      <div class="concept-card">
+        <h4>Step 3: Scale the Factory</h4>
+        <p>Move from "in the loop" (watching) to "on the loop" (reviewing, calibrating). Fleet coordination: parallel agents across hundreds of repos. Agent swarms: many agents, one outcome. Engineers shift from writing every line to designing systems and reviewing agent output.</p>
+      </div>
+    </div>
+
+    <div class="section-title">Background Agent Use Cases (High ROI)</div>
+    <ul class="content-list">
+      <li><strong>Dependency updates across repos:</strong> Fleet of agents updates packages, runs tests, opens PRs across hundreds of repositories</li>
+      <li><strong>CVE remediation:</strong> Agent detects vulnerability, patches it, runs security tests, opens PR — within hours, not weeks</li>
+      <li><strong>CI failure analysis:</strong> When CI fails on a PR, an agent triages the failure, determines if it's flaky or real, and posts a summary</li>
+      <li><strong>PR code review triage:</strong> Agent does a first pass, flagging logic errors, security issues, and regressions before human reviewer sees it</li>
+      <li><strong>Test coverage expansion:</strong> Agent identifies uncovered code, writes tests, opens PRs — overnight, continuously</li>
+      <li><strong>Standards enforcement:</strong> Agent ensures all new code follows team conventions, linting rules, and architectural patterns</li>
+    </ul>
+
+    <div class="section-title">Getting Started with Background Agents</div>
+    <table class="comparison-table">
+      <tr>
+        <th>Tool</th>
+        <th>How</th>
+        <th>Use Case</th>
+      </tr>
+      <tr>
+        <td><strong>Claude Code Routines</strong></td>
+        <td>Configure at claude.ai/code/routines. Runs on Anthropic infrastructure. Triggered by schedule, API calls, or GitHub events.</td>
+        <td>Recurring tasks: daily PR reviews, weekly audits, nightly CI analysis</td>
+      </tr>
+      <tr>
+        <td><strong>Claude Code GitHub Actions</strong></td>
+        <td>Add to your CI pipeline. Runs on GitHub-hosted or self-hosted runners.</td>
+        <td>PR review automation, issue triage, code review on every push</td>
+      </tr>
+      <tr>
+        <td><strong>Copilot Coding Agent</strong></td>
+        <td>Assign a GitHub issue to Copilot. It works in the cloud.</td>
+        <td>Issue-to-PR automation for well-scoped tasks</td>
+      </tr>
+      <tr>
+        <td><strong>Claude Code on the Web</strong></td>
+        <td>claude.ai/code — kick off long-running tasks in the browser.</td>
+        <td>Long tasks you want to walk away from; multi-task parallel sessions</td>
+      </tr>
+    </table>
+
+    <div class="callout info">
+      <strong>IN THE LOOP → ON THE LOOP</strong>
+      The shift from "I use an agent to write code" to "agents handle the predictable parts while I focus on architecture, review, and judgment" is the most important organizational transformation. Start with the coding agent primitives (this course). Then look at background agents for the tasks that don't need a human at the keyboard.
+    </div>
+  </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════════════════════╗
+     ║  MODULE 11: AI-NATIVE SDLC                              ║
+     ╚══════════════════════════════════════════════════════════╝ -->
+<section class="module mod-sdlc" id="sdlc">
+  <div class="module-inner">
+  <div class="module-header">
+    <div class="module-num">Module 11</div>
+    <h2>Making Your SDLC AI-Native</h2>
+    <div class="module-sub">End-to-end transformation — from spec to deploy. AI-native PRDs, spec-first development, multi-agent orchestration, and legacy modernization.</div>
+    <span class="module-time">~10 min in session</span>
+  </div>
+  <div class="module-body">
+
+    <div class="section-title">The AI-Native SDLC Pipeline</div>
+    <div class="flow-row">
+      <span class="flow-step active">Spec / PRD</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">Architecture</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">Task Breakdown</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step active">Implementation</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">Review</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">Test</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step active">Deploy</span>
+    </div>
+    <p>AI agents participate at <strong>every stage</strong>, not just coding. The key shift: <strong>specs become the primary artifact</strong>, code becomes the output.</p>
+
+    <div class="section-title">Spec-First Development</div>
+    <p>Traditional: idea → code → docs (maybe). AI-native: idea → spec → architecture → tasks → code → verification. The spec is machine-readable, versioned, and the single source of truth.</p>
+    <div class="concept-grid">
+      <div class="concept-card">
+        <h4>Why Specs First?</h4>
+        <p>Agents work dramatically better when they have clear, structured context. A vague prompt produces vague code. A detailed spec produces precise implementation. The spec is the lever that multiplies agent quality.</p>
+      </div>
+      <div class="concept-card">
+        <h4>The Spec Chain</h4>
+        <p>Each document feeds the next: PRD → Architecture → Epics → Stories → Implementation. By the time the agent writes code, there's nothing left to guess about. <em>This is what BMAD and Spec Kit formalize.</em></p>
+      </div>
+    </div>
+
+    <div class="section-title">The Conductor Pattern — Multi-Agent Orchestration</div>
+    <p>For complex features, a single agent working sequentially is slow and error-prone. The <strong>Conductor Pattern</strong> uses one orchestrating agent that dispatches subtasks to specialized subagents working in parallel:</p>
+
+    <div class="diagram-box">
+      <span class="box highlight" style="font-size: 13px;">Conductor Agent</span><br><br>
+      <span class="arrow">↓</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">↓</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">↓</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">↓</span><br>
+      <span class="box">API Agent</span>&nbsp;&nbsp;
+      <span class="box">UI Agent</span>&nbsp;&nbsp;
+      <span class="box">Test Agent</span>&nbsp;&nbsp;
+      <span class="box">Docs Agent</span><br>
+      <span style="font-size: 10px; color: var(--muted);">Each in its own worktree, own context window, working in parallel</span>
+    </div>
+
+    <p>In practice:</p>
+    <ul class="content-list">
+      <li><strong>Cursor:</strong> Use <code>/multitask</code> to run async subagents in parallel. Use <code>/worktree</code> for isolated branches. Tiled layout (v3.1+) shows agents side-by-side.</li>
+      <li><strong>Claude Code:</strong> Use <code>/agents</code> to create subagents. Spawn background tasks with the SDK for CI/CD-scale orchestration.</li>
+      <li><strong>Superpowers:</strong> <code>subagent-driven-development</code> skill handles this automatically — dispatches per-task agents with two-stage review.</li>
+    </ul>
+
+    <div class="section-title">Legacy Code Modernization</div>
+    <p>AI agents are uniquely powerful for legacy work — they can read and understand old code without emotional attachment or institutional baggage.</p>
+    <ul class="content-list">
+      <li><strong>Dependency mapping:</strong> Agent analyzes imports, call graphs, and module boundaries to produce a dependency map</li>
+      <li><strong>Refactor target identification:</strong> Agent identifies tightly-coupled modules, dead code, and modernization candidates</li>
+      <li><strong>Incremental migration:</strong> Agent produces small, testable refactoring PRs — not a big-bang rewrite</li>
+      <li><strong>Test generation:</strong> Agent writes tests for legacy code <em>before</em> refactoring (characterization tests)</li>
+      <li><strong>Documentation generation:</strong> Agent reads code and produces documentation for undocumented modules</li>
+    </ul>
+
+    <div class="callout warn">
+      <strong>REALITY CHECK: WHERE AGENTS CAN'T BE TRUSTED (YET)</strong>
+      <ul class="content-list">
+        <li>Security-critical code paths — always human-review</li>
+        <li>Complex distributed systems design — agents lack production intuition</li>
+        <li>Performance-critical optimizations — agents optimize for correctness, not necessarily performance</li>
+        <li>Cross-team coordination — agents don't understand organizational context</li>
+        <li>Final deployment decisions — always human-gated</li>
+      </ul>
+    </div>
+
+    <div class="section-title">The 50%+ Activation Goal</div>
+    <p>The goal isn't to replace developers — it's to make every developer 2-3x more productive by having agents handle the repetitive, well-defined parts of the SDLC. Today, most teams have &lt;10% of their engineers actively using agents beyond basic autocomplete. The target: <strong>50%+ of engineers using agents for meaningful tasks</strong> (not just tab completion) within one quarter.</p>
+
+    <p><strong>How to get there:</strong></p>
+    <ol class="content-list">
+      <li><strong>Week 1:</strong> Set up the agent repo. Install one harness (Cursor or Claude Code). Create 3 team rules.</li>
+      <li><strong>Week 2:</strong> Write 2-3 team skills for the most common workflows. Share them.</li>
+      <li><strong>Week 3:</strong> Add one MCP integration (database or project management). Run a team demo.</li>
+      <li><strong>Week 4:</strong> Each developer creates one personal skill for their workflow. Retrospective on what's working.</li>
+      <li><strong>Ongoing:</strong> Monthly skill review. Evolve the agent repo like a living codebase.</li>
+    </ol>
+  </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════════════════════╗
+     ║  MODULE 10: EXERCISES                                    ║
+     ╚══════════════════════════════════════════════════════════╝ -->
+<section class="module mod-exercises" id="exercises">
+  <div class="module-inner">
+  <div class="module-header">
+    <div class="module-num">Module 12</div>
+    <h2>Exercises &amp; Next Steps</h2>
+    <div class="module-sub">Hands-on labs to reinforce learning. Complete these after the session — each builds on the concepts covered.</div>
+    <span class="module-time">Self-paced · 3-4 hours total</span>
+  </div>
+  <div class="module-body">
+
+    <div class="exercise">
+      <div class="exercise-num">Exercise 1</div>
+      <h4>Set Up Your Harness &amp; Create Team Rules</h4>
+      <p>Get your chosen harness configured with team-specific rules.</p>
+      <ol>
+        <li>Install Cursor or Claude Code (or both)</li>
+        <li>Create a project rules file (<code>.cursor/rules/team-standards.md</code> or <code>CLAUDE.md</code>)</li>
+        <li>Add rules for: coding style, naming conventions, preferred libraries, testing requirements</li>
+        <li>Test it: ask the agent to create a new React component or Java controller and verify it follows your rules</li>
+        <li>Share the rules file with your team via Git</li>
+      </ol>
+      <span class="est">Estimated: 30 min</span>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-num">Exercise 2</div>
+      <h4>Create Your First Custom Skill</h4>
+      <p>Encode a repeating workflow as a reusable skill.</p>
+      <ol>
+        <li>Identify a task you do at least weekly (PR creation, code review, test writing, etc.)</li>
+        <li>Write a SKILL.md file that teaches the agent how to do it your way</li>
+        <li>Place it in <code>.cursor/skills/your-skill/SKILL.md</code> or <code>.claude/skills/your-skill/SKILL.md</code></li>
+        <li>Test it by triggering the skill in a real task</li>
+        <li>Iterate: what did the agent get wrong? Update the skill.</li>
+      </ol>
+      <span class="est">Estimated: 45 min</span>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-num">Exercise 3</div>
+      <h4>Connect an MCP Server</h4>
+      <p>Give your agent access to an external data source.</p>
+      <ol>
+        <li>Choose a data source: PostgreSQL, filesystem, or a public API</li>
+        <li>Configure the MCP server in <code>.cursor/mcp.json</code> or via <code>claude mcp add</code></li>
+        <li>Ask the agent to query data, describe the schema, or generate a report</li>
+        <li>Bonus: build a simple custom MCP server that wraps one of your internal APIs</li>
+      </ol>
+      <span class="est">Estimated: 45 min</span>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-num">Exercise 4</div>
+      <h4>Context Window Debugging Challenge</h4>
+      <p>Practice diagnosing and fixing context problems.</p>
+      <ol>
+        <li>Start a long session where you ask the agent to work on multiple unrelated tasks</li>
+        <li>Observe when the agent starts "forgetting" earlier instructions or making inconsistent decisions</li>
+        <li>Practice using <code>/compact</code> to recover, starting fresh sessions, and using subagents for isolation</li>
+        <li>Experiment: same task with minimal context vs. maximal context — what produces better results?</li>
+      </ol>
+      <span class="est">Estimated: 30 min</span>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-num">Exercise 5</div>
+      <h4>Spec-Driven Development with Spec Kit or BMAD</h4>
+      <p>Practice the full spec-first workflow on a small feature.</p>
+      <ol>
+        <li>Install Spec Kit (<code>pip install speckit</code>) or BMAD</li>
+        <li>Run <code>/speckit.constitution</code> or <code>bmad-help</code> to set up your project</li>
+        <li>Choose a small feature (e.g., "add a user preferences page")</li>
+        <li>Walk through the full flow: Specify → Plan → Tasks → Implement</li>
+        <li>Compare the output quality vs. just prompting the agent directly</li>
+      </ol>
+      <span class="est">Estimated: 60 min</span>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-num">Exercise 6</div>
+      <h4>Bootstrap the Team Agent Repository</h4>
+      <p>Create the shared repo that your whole team will use.</p>
+      <ol>
+        <li>Create a new Git repo following the structure in Module 8</li>
+        <li>Move your rules and skills from Exercises 1-2 into it</li>
+        <li>Write an <code>install.sh</code> that sets up symlinks for Cursor and Claude Code</li>
+        <li>Add a CONTRIBUTING.md with guidelines for adding new skills</li>
+        <li>Invite your team to contribute — set up a PR review process for skills</li>
+      </ol>
+      <span class="est">Estimated: 45 min</span>
+    </div>
+
+    <div class="section-title">Quick Reference Links</div>
+    <ul class="ref-links">
+      <li><a href="https://cursor.com/docs">Cursor Documentation</a> <span class="ref-type">Docs</span></li>
+      <li><a href="https://code.claude.com/docs">Claude Code Documentation</a> <span class="ref-type">Docs</span></li>
+      <li><a href="https://github.com/github/spec-kit">GitHub Spec Kit</a> <span class="ref-type">GitHub</span></li>
+      <li><a href="https://github.com/obra/superpowers">Superpowers</a> <span class="ref-type">GitHub</span></li>
+      <li><a href="https://github.com/steveyegge/beads">Beads</a> <span class="ref-type">GitHub</span></li>
+      <li><a href="https://github.com/bmadcode/BMAD-METHOD">BMAD Method</a> <span class="ref-type">GitHub</span></li>
+      <li><a href="https://modelcontextprotocol.io">Model Context Protocol (MCP)</a> <span class="ref-type">Spec</span></li>
+      <li><a href="https://github.com/paul-gauthier/aider">Aider</a> <span class="ref-type">GitHub</span></li>
+      <li><a href="https://codersera.com/blog/open-source-llms-landscape-2026/">Open-Source LLMs Landscape 2026</a> <span class="ref-type">Article</span></li>
+      <li><a href="https://cursor.com/blog/agent-best-practices">Cursor: Best Practices for Coding with Agents</a> <span class="ref-type">Blog</span></li>
+      <li><a href="https://agenticoding.ai/docs">Agentic Coding Course (agenticoding.ai)</a> <span class="ref-type">Course</span></li>
+      <li><a href="https://background-agents.com">Background Agents &amp; The Self-Driving Codebase</a> <span class="ref-type">Reference</span></li>
+      <li><a href="https://code.claude.com/docs/en/best-practices">Claude Code Best Practices</a> <span class="ref-type">Docs</span></li>
+      <li><a href="https://code.claude.com/docs/en/memory">Claude Code: How Claude Remembers Your Project</a> <span class="ref-type">Docs</span></li>
+      <li><a href="https://code.claude.com/docs/en/context-window">Claude Code: Explore the Context Window</a> <span class="ref-type">Docs</span></li>
+      <li><a href="https://code.claude.com/docs/en/champion-kit">Claude Code Champion Kit (for internal advocates)</a> <span class="ref-type">Playbook</span></li>
+      <li><a href="https://code.claude.com/docs/en/agents">Running Agents in Parallel (Claude Code)</a> <span class="ref-type">Docs</span></li>
+    </ul>
+
+    <div class="section-title">Immediate Next Steps (This Sprint)</div>
+    <div class="concept-grid">
+      <div class="concept-card" style="border-top: 3px solid var(--green);">
+        <h4>1. Pick Your Harness</h4>
+        <p>Choose Cursor or Claude Code (or both). Install it. Spend 30 minutes exploring modes and commands.</p>
+      </div>
+      <div class="concept-card" style="border-top: 3px solid var(--blue);">
+        <h4>2. Write 3 Team Rules</h4>
+        <p>Create a rules file with your coding standards, architecture constraints, and testing requirements. Commit to repo.</p>
+      </div>
+      <div class="concept-card" style="border-top: 3px solid var(--purple);">
+        <h4>3. Create 1 Team Skill</h4>
+        <p>Pick your most common workflow. Write a SKILL.md. Share with the team. Get feedback.</p>
+      </div>
+      <div class="concept-card" style="border-top: 3px solid var(--accent);">
+        <h4>4. Run a 1-Week Experiment</h4>
+        <p>Each team member uses agents for at least 2 real tasks this week. Share results in a retro.</p>
+      </div>
+      <div class="concept-card" style="border-top: 3px solid var(--amber);">
+        <h4>5. Start the Agent Repo</h4>
+        <p>Create the shared Git repo. Move your rules and skills in. Write the install script. Invite contributions.</p>
+      </div>
+    </div>
+
+  </div>
+  </div>
+</section>
+
+</div><!-- /container -->
+
+<!-- ═══════════════════════════ FOOTER ═══════════════════════════ -->
+<footer class="page-footer">
+  <p><strong>AI-Native SDLC Course</strong> · Designed for engineering teams becoming AI-first</p>
+  <p>This is a living document — update it as tools and best practices evolve. Contributions welcome via PR.</p>
+  <p style="margin-top: 16px; font-size: 11px; color: #5a5550;">Last updated: May 2026 · Session duration: ~80 min · Full course: self-paced reference</p>
+</footer>
+
+</body>
+</html>
