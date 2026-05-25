@@ -27,6 +27,23 @@ type SortDir = "asc" | "desc";
 
 const PAGE_SIZE = 50;
 
+function SortIcon({
+  field,
+  sortField,
+  sortDir,
+}: {
+  field: SortField;
+  sortField: SortField;
+  sortDir: SortDir;
+}) {
+  if (sortField !== field) return null;
+  return sortDir === "asc" ? (
+    <ChevronUp className="h-3 w-3 inline ml-1" />
+  ) : (
+    <ChevronDown className="h-3 w-3 inline ml-1" />
+  );
+}
+
 export default function Projects() {
   const [entries, setEntries] = useState<ContentEntry[]>([]);
   const [view, setView] = useState<"grid" | "table">("grid");
@@ -82,15 +99,6 @@ export default function Projects() {
       setSortField(field);
       setSortDir("desc");
     }
-  };
-
-  const SortIcon = ({ field }: { field: SortField }) => {
-    if (sortField !== field) return null;
-    return sortDir === "asc" ? (
-      <ChevronUp className="h-3 w-3 inline ml-1" />
-    ) : (
-      <ChevronDown className="h-3 w-3 inline ml-1" />
-    );
   };
 
   return (
@@ -200,19 +208,19 @@ export default function Projects() {
                       className="cursor-pointer select-none"
                       onClick={() => toggleSort("title")}
                     >
-                      Title <SortIcon field="title" />
+                      Title <SortIcon field="title" sortField={sortField} sortDir={sortDir} />
                     </TableHead>
                     <TableHead
                       className="cursor-pointer select-none"
                       onClick={() => toggleSort("type")}
                     >
-                      Type <SortIcon field="type" />
+                      Type <SortIcon field="type" sortField={sortField} sortDir={sortDir} />
                     </TableHead>
                     <TableHead
                       className="cursor-pointer select-none text-right"
                       onClick={() => toggleSort("date")}
                     >
-                      Date <SortIcon field="date" />
+                      Date <SortIcon field="date" sortField={sortField} sortDir={sortDir} />
                     </TableHead>
                   </TableRow>
                 </TableHeader>
