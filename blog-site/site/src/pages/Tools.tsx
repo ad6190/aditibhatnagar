@@ -85,6 +85,7 @@ export default function Tools() {
     return Array.from(tagSet).sort();
   }, [entries]);
 
+  // eslint-disable-next-line react-hooks/preserve-manual-memoization
   const filtered = useMemo(() => {
     return entries.filter((e) => {
       const tags = getTagsArray(e.tags).map((t) => t.toLowerCase());
